@@ -1,7 +1,5 @@
 package ua.borman;
 
-import org.postgresql.util.PSQLException;
-
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -38,8 +36,16 @@ public class DatabaseManager {
 
     }
 
-    public void tables(){
-        System.out.println(">\tВыполнился метод tables()");
+    public ArrayList<String> tables() throws SQLException {  // TODO Сделать, чтобы можно было выбирать схему
+        ArrayList<String> list = new ArrayList<>();
+        try(Statement statement = connection.createStatement()) {
+            DatabaseMetaData md = connection.getMetaData();
+            ResultSet rs = md.getTables(null, "public", "%", null);
+            while(rs.next()){
+                list.add(rs.getString("TABLE_NAME"));
+            }
+        }
+        return list;
     }
 
     public void clear(String tableName) throws SQLException {
@@ -50,9 +56,10 @@ public class DatabaseManager {
     }
 
 
-    public void drop(String tableName){
-        System.out.println("Выполнился метод drop(tableName)");
-        // statement.executeUpdate();
+    public void drop(String tableName) throws SQLException {
+        try(Statement statement = connection.createStatement()) {
+            statement.executeUpdate("DROP TABLE " + tableName);
+        }
     }
 
     public void create(ArrayList<String> columnList) throws SQLException {
@@ -115,7 +122,6 @@ public class DatabaseManager {
                 query.append(columnList.get(i++)).append("=").append(columnList.get(i)).append(" OR ");
         }
         query.append(columnList.get(i++)).append("=").append(columnList.get(i));
-        System.out.println(" query = " + query);
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(query.toString());
         }
@@ -154,6 +160,7 @@ public class DatabaseManager {
         }
         return false;
     }
+
 
     protected void finalize() {
         System.out.println("Выполнился метод finalize()");  // TODO отладочная строка

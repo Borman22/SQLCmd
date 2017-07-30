@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 public class Help {
     private static String fullList = "\n>\tСписок всех поддерживаемых комманд:\n" +
-            ">\t\tconnect\n>\t\ttables\n>\t\tclear\n>\t\tdrop\n>\t\tcreate\n>\t\tfind\n>\t\tinsert\n>\t\tupdate\n>\t\tdelete\n>\t\thelp\n>\t\texit>\t\tclose\n" +
+            ">\t\tconnect\n>\t\ttables\n>\t\tclear\n>\t\tdrop\n>\t\tcreate\n>\t\tfind\n>\t\tinsert\n>\t\tupdate\n>\t\tdelete\n>\t\thelp\n>\t\texit\n>\t\tclose\n" +
             ">\tДля более детального описания необходимой команды, напишите help|\"название команды\"\n" +
             ">\tНапример help|create\n";
 

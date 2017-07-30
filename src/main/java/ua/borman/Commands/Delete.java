@@ -24,9 +24,6 @@ public class Delete {
             return;
         }
 
-//        for (int i = 0; i < queryList.size(); i++)
-//            queryList.set(i, "\"" + queryList.get(i).trim() + "\"");  // Все заключаем в кавычки, потому, что по-другому Postgres не работает с большими буквами
-
         queryList.remove(0);
         queryList.set(0, "\"" + queryList.get(0).trim() + "\""); // имя таблицы заключаем в двойные кавычки
         for (int i = 1; i < queryList.size(); i++) {
