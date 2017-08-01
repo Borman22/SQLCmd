@@ -114,16 +114,21 @@ public class DatabaseManager {
         }
         query.append(value.get(i)).append(")");
 
-        System.out.println("query = " + query.toString());
+//        System.out.println("query = " + query.toString());
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(query.toString());
         }
 
     }
 
-    public void update(String tableName, String ... column_values){
-        System.out.println("Выполнился метод update(String tableName, String ... column_values)");
+    public void update(ArrayList<String> columnList) throws SQLException {
        // statement.executeUpdate("UPDATE users SET password = 123 WHERE id > 10");
+        StringBuilder query = new StringBuilder("UPDATE ").append(columnList.get(0)).append(" SET ").append(columnList.get(3)).append(" = ").append(columnList.get(4)).append(" WHERE ").append(columnList.get(1)).append(" = ").append(columnList.get(2));  // "INSERT INTO users (name, password) VALUES ('borman', '1234wedfxc')"
+
+        System.out.println("query = " + query.toString());
+        try (Statement statement = connection.createStatement()) {
+            statement.executeUpdate(query.toString());
+        }
     }
 
     public void delete(ArrayList<String> columnList) throws SQLException {
