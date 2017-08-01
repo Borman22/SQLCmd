@@ -26,5 +26,6 @@ public class Tables {
             System.out.println(">\tНе удалось получить список всех таблиц");
             System.out.println(e.getLocalizedMessage());
         }
+
     }
 }

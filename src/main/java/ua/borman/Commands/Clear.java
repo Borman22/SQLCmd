@@ -23,7 +23,7 @@ public class Clear {
             System.out.println(">\tТаблица очищена.\n");
         } catch (SQLException e) {
             System.out.println("Не удалось очистить таблицу " + tableName + ". Возможно имя представлено в виде \"schema.tableName\"");
-            System.out.println(e.getLocalizedMessage());
+            System.out.println(">t" + e.getLocalizedMessage());
         }
     }
 }

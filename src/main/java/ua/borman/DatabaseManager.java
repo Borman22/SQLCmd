@@ -92,21 +92,33 @@ public class DatabaseManager {
 //        rs.close();
     }
 
-    public void insert(String tableName, String... column_values){
-//        try {
-//            statement = connection.createStatement();
-//        } catch (SQLException e) {
-//            System.out.println("Не удалось получить объект Statement");
-//            e.printStackTrace();
-//            return;
-//        }
-//        try {
-//            statement.executeUpdate("INSERT INTO users (name, password) VALUES ('borman', '1234wedfxc')");
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
+    public void insert(ArrayList<String> columnList) throws SQLException {
+        StringBuilder query = new StringBuilder("INSERT INTO " + columnList.get(0) + " (");  // "INSERT INTO users (name, password) VALUES ('borman', '1234wedfxc')"
+        ArrayList<String> columName = new ArrayList<>();
+        ArrayList<String> value = new ArrayList<>();
 
-        System.out.println("Выполнился метод insert(String tableName, String... column_values)");
+        for (int i = 1; i < columnList.size(); i++) {
+            columName.add(columnList.get(i++));
+            value.add(columnList.get(i));
+        }
+
+        int i;
+        for (i = 0; i < columName.size() - 1; i++) {
+            query.append(columName.get(i)).append(", ");
+        }
+        query.append(columName.get(i)).append(") VALUES (");
+
+        i = 0;
+        for(i = 0; i < value.size() - 1; i++){
+            query.append(value.get(i)).append(", ");
+        }
+        query.append(value.get(i)).append(")");
+
+        System.out.println("query = " + query.toString());
+        try (Statement statement = connection.createStatement()) {
+            statement.executeUpdate(query.toString());
+        }
+
     }
 
     public void update(String tableName, String ... column_values){
@@ -125,9 +137,6 @@ public class DatabaseManager {
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(query.toString());
         }
-
-        //statement.executeUpdate("DELETE FROM users WHERE id < 3");
-        //statement.close();
     }
 
     public void closeConnection() {
@@ -161,6 +170,24 @@ public class DatabaseManager {
         return false;
     }
 
+
+
+
+
+    // методы для того, чтобы все методы пораскладывать по соответствующим классам
+    public Statement getStatement() throws SQLException {
+        if(isConnected()){
+            return connection.createStatement();
+        }
+        return null;
+    }
+
+    public DatabaseMetaData getMetadata() throws SQLException {
+        if(isConnected()){
+            return connection.getMetaData();
+        }
+        return null;
+    }
 
     protected void finalize() {
         System.out.println("Выполнился метод finalize()");  // TODO отладочная строка

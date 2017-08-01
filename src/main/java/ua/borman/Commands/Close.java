@@ -17,7 +17,7 @@ public class Close {
             System.out.println(">\tУспешно отключились от базы данныых ");
         } catch (SQLException e) {
             System.out.println(">\tНе удалось отключиться от базы данных ");
-            e.printStackTrace();
+            System.out.println(">\t" + e.getLocalizedMessage());
         }
     }
 }
