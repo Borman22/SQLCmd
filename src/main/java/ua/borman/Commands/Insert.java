@@ -38,7 +38,7 @@ public class Insert {
             dbm.insert(queryList);
             System.out.println(">\tВ таблицу вставлена строка\n");
         } catch (SQLException e) {
-            System.out.println(">\tВ таблицу не удалось вставить строку.\n");
+            System.out.println(">\tВ таблицу не удалось вставить строку.");
             System.out.println(">\t" + e.getLocalizedMessage());
         }
     }

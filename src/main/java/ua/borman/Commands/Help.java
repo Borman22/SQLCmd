@@ -9,7 +9,18 @@ import java.util.ArrayList;
  */
 public class Help {
     private static String fullList = "\n>\tСписок всех поддерживаемых комманд:\n" +
-            ">\t\tconnect\n>\t\ttables\n>\t\tclear\n>\t\tdrop\n>\t\tcreate\n>\t\tfind\n>\t\tinsert\n>\t\tupdate\n>\t\tdelete\n>\t\thelp\n>\t\texit\n>\t\tclose\n" +
+            ">\t\tconnect - подключение к БД. Формат: connect | database | user | password\n" +
+            ">\t\ttables - вывести список всех таблиц. Формат: tables\n" +
+            ">\t\tclear - очистить таблицу. Формат: clear | tableName\n" +
+            ">\t\tdrop - удалить таблицу из БД. Формат: drop | tableName\n" +
+            ">\t\tcreate - создать новую таблицу в БД. Формат: create | tableName | column1 | column2 | ... | columnN\n" +
+            ">\t\tfind - показать содержимое таблицы. Формат: find | tableName\n" +
+            ">\t\tinsert - вставить строку в таблицу. Формат: insert | tableName | column1 | value1 | column2 | value2 | ... | columnN | valueN\n" +
+            ">\t\tupdate - заменить значение в колонке column2 на value2, если в column1 содержится value1. Формат: update | tableName | column1 | value1 | column2 | value2\n" +
+            ">\t\tdelete - удалить все строки, у которых в колонке columnN содержится значение value. Формат: delete | tableName | columnN | value\n" +
+            ">\t\thelp - помощь. Формат 1: help. \tФормат 2: help | commandName\n" +
+            ">\t\texit - закрыть соединение с БД и завершить приложение. Формат: exit\n" +
+            ">\t\tclose - закрыть соединение с БД. Формат: close\n" +
             ">\tДля более детального описания необходимой команды, напишите help|\"название команды\"\n" +
             ">\tНапример help|create\n";
 
@@ -83,7 +94,7 @@ public class Help {
 
                 case "delete":
                     System.out.println("\n>\tКоманда удаляет одну или несколько записей для которых соблюдается условие column = value\n" +
-                            ">\tФормат: delete | tableName | column | value\n" +
+                            ">\tФормат: delete | tableName | columnN | value\n" +
                             ">\tгде: tableName - имя таблицы\n" +
                             ">\tColumn - имя столбца записи которое проверяется\n" +
                             ">\tvalue - значение которому должен соответствовать столбец column1 для удаляемой записи\n");

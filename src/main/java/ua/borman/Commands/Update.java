@@ -1,4 +1,5 @@
 package ua.borman.Commands;
+// TODO Надо сделать вывод со старыми значениями обновленных данных
 
 import ua.borman.DatabaseManager;
 
@@ -11,11 +12,6 @@ public class Update {
             System.out.println(">\tОперация не выполнена. Причина: у команды update должно быть 5 аргументов: " +
                     "tableName, verifyColumn, verifyValue, goalColumn, newValue\n");
             return;
-        }
-
-        if(queryList.size() % 2 != 0){
-            System.out.println(">\tОперация не выполнена. Причина: запрос не соответствует фомату: " +
-                    "tableName, verifyColumn, verifyValue, goalColumn, newValue\n");
         }
 
         if(!dbm.isConnected()){
@@ -34,10 +30,10 @@ public class Update {
         }
 
         try {
-            dbm.update(queryList);
+            dbm.update(queryList);  // TODO Подумать над тем, как получить таблицу из строк, которые были изменены
             System.out.println(">\tСтрока модифицирована\n");
         } catch (SQLException e) {
-            System.out.println(">\tНе удалось модифицировать строку.\n");
+            System.out.println(">\tНе удалось модифицировать строку.");
             System.out.println(">\t" + e.getLocalizedMessage());
         }
 

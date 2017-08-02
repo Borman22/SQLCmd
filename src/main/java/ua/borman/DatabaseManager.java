@@ -5,16 +5,13 @@ import java.util.ArrayList;
 
 public class DatabaseManager {
     private String host = "jdbc:postgresql://localhost:5432/";
-    private String database;        // = "myPostgresDB"
-    private String user;            // = "postgres"
-    private String password;        // = "root"
     private String loggerLevelOff = "?loggerLevel=OFF";
 
     private Connection connection = null;
 
     public void connect(String database, String user, String password) throws SQLException {
         if (connection != null && !connection.isClosed()) {
-            System.out.println(">\tСоединение с базой данных " + this.database + " уже установлено.\n" +
+            System.out.println(">\tСоединение с базой данных уже установлено.\n" +
                     ">\tЧтобы установить новое соединение, сначала необходимо закрыть текущее\n");
             return;
         }
@@ -25,10 +22,6 @@ public class DatabaseManager {
             System.out.println(">\tОШИБКА! Не подключен SQL драйвер JDBC!\n");
             return;
         }
-
-        this.database = database;
-        this.user = user;
-        this.password = password;
 
         connection = DriverManager.getConnection(host + database + loggerLevelOff, user, password);
         if ((connection != null) && (!connection.isClosed()))
@@ -55,7 +48,6 @@ public class DatabaseManager {
 
     }
 
-
     public void drop(String tableName) throws SQLException {
         try(Statement statement = connection.createStatement()) {
             statement.executeUpdate("DROP TABLE " + tableName);
@@ -81,15 +73,27 @@ public class DatabaseManager {
 
     }
 
-    public void find(String tableName){
-        System.out.println("Выполнился метод find(tableName)");
-//        ResultSet rs = statement.executeQuery("SELECT * FROM users");
-//
-//        rs = statement.executeQuery("select * from information_schema.tables");
-//        while (rs.next()){
-//            System.out.println(rs.getInt("id") + "\t" + rs.getString("name") + "   \t" + rs.getString("password"));
-//        }
-//        rs.close();
+    public void find(String tableName) throws SQLException {
+
+        try (Statement statement = connection.createStatement()) {
+            ResultSet rs = statement.executeQuery("SELECT * FROM " + tableName);
+            int columnCount = rs.getMetaData().getColumnCount();
+            System.out.println("\ntableName = " + tableName);
+            System.out.println(
+
+            );
+            for (int i = 1; i <= columnCount; i++) {
+                System.out.printf("%-15s", rs.getMetaData().getColumnLabel(i));
+            }
+            System.out.println();
+            while (rs.next()){
+                for (int j = 1; j <= columnCount; j++) {
+                    System.out.printf("%-15s", rs.getString(j)); // TODO подумать, как читать TimeStamp или другие данные
+                }
+                System.out.println();
+            }
+            rs.close();
+        }
     }
 
     public void insert(ArrayList<String> columnList) throws SQLException {
@@ -114,7 +118,6 @@ public class DatabaseManager {
         }
         query.append(value.get(i)).append(")");
 
-//        System.out.println("query = " + query.toString());
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(query.toString());
         }
@@ -125,7 +128,6 @@ public class DatabaseManager {
        // statement.executeUpdate("UPDATE users SET password = 123 WHERE id > 10");
         StringBuilder query = new StringBuilder("UPDATE ").append(columnList.get(0)).append(" SET ").append(columnList.get(3)).append(" = ").append(columnList.get(4)).append(" WHERE ").append(columnList.get(1)).append(" = ").append(columnList.get(2));  // "INSERT INTO users (name, password) VALUES ('borman', '1234wedfxc')"
 
-        System.out.println("query = " + query.toString());
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(query.toString());
         }
@@ -145,14 +147,11 @@ public class DatabaseManager {
     }
 
     public void closeConnection() {
-        database = null;
-        user = null;
-        password = null;
         if(connection != null) {
             try {
                 connection.close();
             } catch (SQLException e) {
-                System.out.println("Не удалось закрыть соединение с базой данных " + this.database);
+                System.out.println("Не удалось закрыть соединение с базой данных");
                 e.printStackTrace();
             }
         }
@@ -175,11 +174,21 @@ public class DatabaseManager {
         return false;
     }
 
+    protected void finalize() {
+        try {
+            if (!connection.isClosed())
+                connection.close();
+        } catch (SQLException e) {
+            System.out.println("Не удалось закрыть соединение с базой данных");
+            e.printStackTrace();
+        }
+    }
 
 
 
 
-    // методы для того, чтобы все методы пораскладывать по соответствующим классам
+
+    // методы для того, чтобы все методы пораскладывать по соответствующим классам (пока не используются)
     public Statement getStatement() throws SQLException {
         if(isConnected()){
             return connection.createStatement();
@@ -192,17 +201,6 @@ public class DatabaseManager {
             return connection.getMetaData();
         }
         return null;
-    }
-
-    protected void finalize() {
-        System.out.println("Выполнился метод finalize()");  // TODO отладочная строка
-        try {
-            if (!connection.isClosed())
-                connection.close();
-        } catch (SQLException e) {
-            System.out.println("Не удалось закрыть соединение с базой данных " + this.database);
-            e.printStackTrace();
-        }
     }
 
 }

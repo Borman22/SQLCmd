@@ -26,7 +26,7 @@ public class Create {
             dbm.create(queryList);
             System.out.println(">\tТаблица успешно создана\n");
         } catch (SQLException e) {
-            System.out.println(">\tНе удалось создать таблицу.\n");
+            System.out.println(">\tНе удалось создать таблицу.");
             System.out.println(">t" + e.getLocalizedMessage());
         }
     }

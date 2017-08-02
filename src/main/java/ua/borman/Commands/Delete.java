@@ -37,7 +37,7 @@ public class Delete {
             dbm.delete(queryList);
             System.out.println(">\tИз таблицы удалены данные\n");
         } catch (SQLException e) {
-            System.out.println(">\tНе удалось удалить данные с таблицы.\n");
+            System.out.println(">\tНе удалось удалить данные с таблицы.");
             System.out.println(">t" + e.getLocalizedMessage());
         }
     }
