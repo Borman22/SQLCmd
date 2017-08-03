@@ -1,7 +1,10 @@
-package ua.borman;
+package ua.borman.sqlcmd.controller;
 // +
 
-import ua.borman.Commands.*;
+import ua.borman.sqlcmd.controller.Commands.*;
+import ua.borman.sqlcmd.model.DatabaseManager;
+import ua.borman.sqlcmd.view.ConsoleWriter;
+import ua.borman.sqlcmd.view.Writer;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,12 +12,14 @@ import java.util.Collections;
 public class CommandExecutor {
 
     public void execute(String str, DatabaseManager dbm) {
-        String[] queryArry = str.split("\\|");
+        String[] queryArray = str.split("\\|");
 
         ArrayList<String> queryList = new ArrayList<>();
-        Collections.addAll(queryList, queryArry);
+        Collections.addAll(queryList, queryArray);
 
         queryList.set(0, queryList.get(0).trim().toLowerCase());
+
+        Writer writer = new ConsoleWriter();
 
         if (queryList.size() != 0) {
             if(queryList.size() == 1 && queryList.get(0).equals("")) return;
@@ -68,8 +73,8 @@ public class CommandExecutor {
                     break;
 
                 default:
-                    System.out.println("\nОшибка! Несуществующая команда!");
-                    System.out.println("Чтобы посмотреть доступные команды, напишите help");
+                    writer.writeln("\nОшибка! Несуществующая команда!");
+                    writer.writeln("Чтобы посмотреть доступные команды, напишите help");
 
             }
         }

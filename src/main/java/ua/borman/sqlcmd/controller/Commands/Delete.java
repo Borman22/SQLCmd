@@ -1,26 +1,28 @@
-package ua.borman.Commands;
-// +
+package ua.borman.sqlcmd.controller.Commands;
 
-import ua.borman.DatabaseManager;
+import ua.borman.sqlcmd.model.DatabaseManager;
+import ua.borman.sqlcmd.view.ConsoleWriter;
+import ua.borman.sqlcmd.view.Writer;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Delete {
     public static void delete(ArrayList<String> queryList, DatabaseManager dbm) {
+        Writer writer = new ConsoleWriter();
         if (queryList.size() < 4){
-            System.out.println(">\tОперация не выполнена. Причина: у команды delete должно быть минимум 3 аргумента: " +
+            writer.writeln(">\tОперация не выполнена. Причина: у команды delete должно быть минимум 3 аргумента: " +
                     "tableName, column_1, value_1\n");
             return;
         }
 
         if(queryList.size() % 2 != 0){
-            System.out.println(">\tОперация не выполнена. Причина: запрос не соответствует фомату: " +
+            writer.writeln(">\tОперация не выполнена. Причина: запрос не соответствует фомату: " +
                     "tableName, column_1, value_1, column_2, value_2, ..., column_N, value_N \n");
         }
 
         if(!dbm.isConnected()){
-            System.out.println(">\tЧтобы работать с таблицами необходимо подключиться к БД\n");
+            writer.writeln(">\tЧтобы работать с таблицами необходимо подключиться к БД\n");
             return;
         }
 
@@ -35,10 +37,10 @@ public class Delete {
         }
         try {
             dbm.delete(queryList);
-            System.out.println(">\tИз таблицы удалены данные\n");
+            writer.writeln(">\tИз таблицы удалены данные\n");
         } catch (SQLException e) {
-            System.out.println(">\tНе удалось удалить данные с таблицы.");
-            System.out.println(">t" + e.getLocalizedMessage());
+            writer.writeln(">\tНе удалось удалить данные с таблицы.");
+            writer.writeln(">t" + e.getLocalizedMessage());
         }
     }
 }

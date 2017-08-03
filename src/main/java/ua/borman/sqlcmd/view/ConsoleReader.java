@@ -1,12 +1,11 @@
-package ua.borman;
-// +
+package ua.borman.sqlcmd.view;
 
 import java.util.Scanner;
 
-// Класс для чтения оманд из консоли
-public class CommandReader {
+public class ConsoleReader implements Reader {
 
-    public String readConsole() {
+    @Override
+    public String read() {
         Scanner scanner = new Scanner(System.in);
         if(scanner.hasNextLine()){
             return scanner.nextLine();
