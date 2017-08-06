@@ -1,4 +1,4 @@
-package ua.borman.sqlcmd.controller.Commands;
+package ua.borman.sqlcmd.controller.commands;
 
 import ua.borman.sqlcmd.model.DatabaseManager;
 import ua.borman.sqlcmd.view.ConsoleWriter;
@@ -22,12 +22,12 @@ public class Update {
         }
 
         queryList.remove(0);
-        queryList.set(0, "\"" + queryList.get(0).trim() + "\""); // имя таблицы заключаем в двойные кавычки
+        queryList.set(0, "\"" + queryList.get(0) + "\""); // имя таблицы заключаем в двойные кавычки
         for (int i = 1; i < queryList.size(); i++) {
             if (i % 2 == 1) {
-                queryList.set(i, "\"" + queryList.get(i).trim() + "\""); // имя столбца заключаем в двойные кавычки
+                queryList.set(i, "\"" + queryList.get(i) + "\""); // имя столбца заключаем в двойные кавычки
             } else {
-                queryList.set(i, "\'" + queryList.get(i).trim() + "\'"); // значение заключаем в одинарные кавычки
+                queryList.set(i, "\'" + queryList.get(i) + "\'"); // значение заключаем в одинарные кавычки
             }
         }
 

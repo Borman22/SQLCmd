@@ -1,4 +1,4 @@
-package ua.borman.sqlcmd.controller.Commands;
+package ua.borman.sqlcmd.controller.commands;
 
 import ua.borman.sqlcmd.model.DatabaseManager;
 import ua.borman.sqlcmd.view.ConsoleWriter;
@@ -7,18 +7,17 @@ import ua.borman.sqlcmd.view.Writer;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class Сonnect {
+public class Connect {
 
     public static void connect(ArrayList<String> queryList, DatabaseManager dbm) {
         Writer writer = new ConsoleWriter();
-        for (int i = 0; i < queryList.size(); i++)
-            queryList.set(i, queryList.get(i).trim());
+        queryList.remove(0); // удаляем команду
 
-        if (queryList.size() == 4) {
+        if (queryList.size() == 3 || queryList.size() == 4) {
             try {
-                dbm.connect(queryList.get(1), queryList.get(2), queryList.get(3));
+                dbm.connect(queryList);
             } catch (SQLException e) {
-                writer.writeln(">\tНе удалось подключиться к базе данных. Проверте правильность написания имени БД, логина и пароля.\n" +
+                writer.writeln(">\tНе удалось подключиться к базе данных. Проверте правильность написания имени БД, логина, пароля, хоста и порта.\n" +
                         ">\tБуквы в верхнем регистре не равны буквам в нижнем");
                 writer.writeln(">\tВведите следующую команду\n");
             }
@@ -26,6 +25,6 @@ public class Сonnect {
         }
 
         writer.writeln(">\tНеправильный формат запроса. Введите запрос в формате:" +
-                ">\tconnect|database|username|password");
+                ">\tconnect|database|username|password или connect|database|username|password|host:port");
     }
 }

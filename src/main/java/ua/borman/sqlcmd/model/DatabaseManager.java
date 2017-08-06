@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseManager {
-    private final String HOST = "jdbc:postgresql://localhost:5432/";
     private final String LOGGER_LEVEL_OFF = "?loggerLevel=OFF";
     private Connection connection = null;
 
@@ -30,9 +29,9 @@ public class DatabaseManager {
     public void create(ArrayList<String> columnList) throws SQLException {
         StringBuilder query;
         if(columnList.size() == 1) {
-            query = new StringBuilder("CREATE TABLE " + columnList.get(0) + " ()");
+            query = new StringBuilder("CREATE TABLE ").append(columnList.get(0)).append(" ()");
         } else {
-            query = new StringBuilder("CREATE TABLE " + columnList.get(0) + " ("); // первая запись - tableName, остальные - columnName
+            query = new StringBuilder("CREATE TABLE ").append(columnList.get(0)).append(" ("); // первая запись - tableName, остальные - columnName
             int i;
             for (i = 1; i < columnList.size() - 1; i++) {
                 query.append(columnList.get(i)).append(" text, ");
@@ -46,8 +45,15 @@ public class DatabaseManager {
 
     }
 
+    public void createDB(String dbName) throws SQLException {
+        try (Statement statement = connection.createStatement()) {
+            statement.executeUpdate("CREATE DATABASE " + dbName);
+        }
+    }
+
+
     public void delete(ArrayList<String> columnList) throws SQLException {
-        StringBuilder query = new StringBuilder("DELETE FROM " + columnList.get(0) + " WHERE ");
+        StringBuilder query = new StringBuilder("DELETE FROM ").append(columnList.get(0)).append(" WHERE ");
 
         int i;
         for (i = 1; i < columnList.size() - 2; i++) {  // 0 - tableName, остальное - колонки и значения
@@ -62,6 +68,14 @@ public class DatabaseManager {
     public void drop(String tableName) throws SQLException {
         try(Statement statement = connection.createStatement()) {
             statement.executeUpdate("DROP TABLE " + tableName);
+        }
+    }
+
+
+
+    public void dropDB(String dbName) throws SQLException {
+        try (Statement statement = connection.createStatement()) {
+            statement.executeUpdate("DROP DATABASE " + dbName);
         }
     }
 
@@ -134,11 +148,10 @@ public class DatabaseManager {
         }
     }
 
-    public void connect(String database, String user, String password) throws SQLException {
+    public void connect(ArrayList<String> queryList) throws SQLException {
         if (connection != null && !connection.isClosed()) {
-
             System.out.println(">\tСоединение с базой данных уже установлено.\n" +
-                    ">\tЧтобы установить новое соединение, сначала необходимо закрыть текущее\n");
+                    ">\tЧтобы установить новое соединение, сначала необходимо закрыть текущее командой close\n");
             return;
         }
 
@@ -148,12 +161,17 @@ public class DatabaseManager {
             System.out.println(">\tОШИБКА! Не подключен SQL драйвер JDBC!\n");
             return;
         }
+        String host = (queryList.size() == 4) ? "jdbc:postgresql://" + queryList.get(3) + "/"  : "jdbc:postgresql://localhost:5432/";
 
-        connection = DriverManager.getConnection(HOST + database + LOGGER_LEVEL_OFF, user, password);
+
+        connection = DriverManager.getConnection(host + queryList.get(0) + LOGGER_LEVEL_OFF, queryList.get(1), queryList.get(2));
         if ((connection != null) && (!connection.isClosed()))
-            System.out.println(">\tПодключение к базе данных установлено.\n");
-
-    }
+            if(queryList.get(0).equals("")) {
+                System.out.println(">\tПодключение к SQL серверу установлено.\n");
+            } else {
+                System.out.println(">\tПодключение к базе данных установлено.\n");
+            }
+        }
 
 
 
@@ -187,4 +205,5 @@ public class DatabaseManager {
             e.printStackTrace();
         }
     }
+
 }

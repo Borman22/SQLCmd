@@ -1,4 +1,4 @@
-package ua.borman.sqlcmd.controller.Commands;
+package ua.borman.sqlcmd.controller.commands;
 
 import ua.borman.sqlcmd.view.ConsoleWriter;
 import ua.borman.sqlcmd.view.Writer;
@@ -8,11 +8,13 @@ import java.util.ArrayList;
 public class Help {
 
     private static String fullList = "\n>\tСписок всех поддерживаемых комманд:\n" +
-            ">\t\tconnect - подключение к БД. Формат: connect | database | user | password\n" +
+            ">\t\tconnect - подключение к БД. Формат: connect|database|username|password или connect|database|username|password|host:port\n" +
             ">\t\ttables - вывести список всех таблиц. Формат: tables\n" +
             ">\t\tclear - очистить таблицу. Формат: clear | tableName\n" +
             ">\t\tdrop - удалить таблицу из БД. Формат: drop | tableName\n" +
+            ">\t\tdropDB - удалить БД. Формат: dropDB | DBName | username | password  или  dropDB | DBName если подключение к SQL серверу уже установлено\n" +
             ">\t\tcreate - создать новую таблицу в БД. Формат: create | tableName | column1 | column2 | ... | columnN\n" +
+            ">\t\tcreateDB - создать новую БД. Формат: createDB | DBName | username | password  или  createDB | DBName если подключение к SQL серверу уже установлено\n" +
             ">\t\tfind - показать содержимое таблицы. Формат: find | tableName\n" +
             ">\t\tinsert - вставить строку в таблицу. Формат: insert | tableName | column1 | value1 | column2 | value2 | ... | columnN | valueN\n" +
             ">\t\tupdate - заменить значение в колонке column2 на value2, если в column1 содержится value1. Формат: update | tableName | column1 | value1 | column2 | value2\n" +
@@ -30,10 +32,12 @@ public class Help {
             switch (queryList.get(1)) {
                 case "connect":
                     writer.writeln("\n>\tКоманда для подключения к соответствующей БД\n" +
-                            ">\tФормат команды: connect | database | username | password\n" +
+                            ">\tФормат команды: connect|database|username|password (используется для localhost:5432) или  connect|database|username|password|host:port\n" +
                             ">\tгде: database - имя БД\n" +
-                            ">\tusername -  имя пользователя БД\n" +
-                            ">\tpassword - пароль пользователя БД\n");
+                            ">\tusername - имя пользователя БД\n" +
+                            ">\tpassword - пароль пользователя БД\n" +
+                            ">\thost - адресс SQL сервера\n" +
+                            ">\tport - номер порта\n");
                     break;
 
                 case "tables":
@@ -53,6 +57,14 @@ public class Help {
                             ">\tгде tableName - имя удаляемой таблицы\n");
                     break;
 
+                case "dropDB":
+                    writer.writeln("\n>\tКоманда удаляет базу данных\n" +
+                            ">\tФормат: dropDB | DBName | username | password  или  dropDB | DBName если подключение к SQL серверу уже установлено\n" +
+                            ">\tгде DBName - имя базы данных\n" +
+                            ">\tusername - имя пользователя БД\n" +
+                            ">\tpassword - пароль пользователя БД\n");
+                    break;
+
                 case "create":
                     writer.writeln("\n>\tКоманда создает новую таблицу с заданными полями\n" +
                             ">\tФормат: create | tableName | column1 | column2 | ... | columnN\n" +
@@ -60,6 +72,14 @@ public class Help {
                             ">\tcolumn1 - имя первого столбца записи\n" +
                             ">\tcolumn2 - имя второго столбца записи\n" +
                             ">\tcolumnN - имя n-го столбца записи\n");
+                    break;
+
+                case "createDB":
+                    writer.writeln("\n>\tКоманда создает базу данных\n" +
+                            ">\tФормат: createDB | DBName | username | password  или  createDB | DBName если подключение к SQL серверу уже установлено\n" +
+                            ">\tгде DBName - имя базы данных\n" +
+                            ">\tusername - имя пользователя БД\n" +
+                            ">\tpassword - пароль пользователя БД\n");
                     break;
 
                 case "find":

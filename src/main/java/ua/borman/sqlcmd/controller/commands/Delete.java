@@ -1,4 +1,4 @@
-package ua.borman.sqlcmd.controller.Commands;
+package ua.borman.sqlcmd.controller.commands;
 
 import ua.borman.sqlcmd.model.DatabaseManager;
 import ua.borman.sqlcmd.view.ConsoleWriter;

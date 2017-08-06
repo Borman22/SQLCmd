@@ -1,4 +1,4 @@
-package ua.borman.sqlcmd.controller.Commands;
+package ua.borman.sqlcmd.controller.commands;
 
 import ua.borman.sqlcmd.model.DatabaseManager;
 import ua.borman.sqlcmd.view.ConsoleWriter;
@@ -20,7 +20,7 @@ public class Clear {
             writer.writeln(">\tЧтобы работать с таблицами необходимо подключиться к БД\n");
             return;
         }
-        String tableName = "\"" + queryList.get(1).trim() + "\"";
+        String tableName = "\"" + queryList.get(1) + "\"";
         try {
             dbm.clear(tableName);
             writer.writeln(">\tТаблица очищена.\n");
