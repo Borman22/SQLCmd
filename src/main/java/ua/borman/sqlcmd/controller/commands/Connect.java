@@ -5,11 +5,11 @@ import ua.borman.sqlcmd.view.ConsoleWriter;
 import ua.borman.sqlcmd.view.Writer;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.List;
 
 public class Connect {
 
-    public static void connect(ArrayList<String> queryList, DatabaseManager dbm) {
+    public static void connect(List<String> queryList, DatabaseManager dbm) {
         Writer writer = new ConsoleWriter();
         queryList.remove(0); // удаляем команду
 

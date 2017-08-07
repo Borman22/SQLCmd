@@ -36,7 +36,7 @@ public class DropDB {
             writer.writeln(">\tОперация не выполнена. Причина: неправильный формат команды.\n");
             return;
         }
-
+        queryList.set(0, "\"" + queryList.get(0) + "\"");
         try {
             dbm.dropDB(queryList.get(0));
             writer.writeln(">\tБаза данных " + queryList.get(0)+ " успешно удалена\n");

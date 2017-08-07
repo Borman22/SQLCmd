@@ -5,10 +5,10 @@ import ua.borman.sqlcmd.view.ConsoleWriter;
 import ua.borman.sqlcmd.view.Writer;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.List;
 
 public class Clear {
-    public static void clear(ArrayList<String> queryList, DatabaseManager dbm) {
+    public static void clear(List<String> queryList, DatabaseManager dbm) {
         Writer writer = new ConsoleWriter();
 
         if(queryList.size() != 2){

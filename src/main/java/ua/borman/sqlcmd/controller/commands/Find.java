@@ -10,19 +10,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Find {
-    public static void find(ArrayList<String> queryList, DatabaseManager dbm) {
+    public static List<DataSet> find(ArrayList<String> queryList, DatabaseManager dbm) {
         Writer writer = new ConsoleWriter();
         if (queryList.size() != 2){
             writer.writeln(">\tОперация не выполнена. Причина: у команды find должен быть 1 аргумент: tableName\n");
-            return;
+            return null;
         }
 
         if(!dbm.isConnected()){
             writer.writeln(">\tЧтобы работать с таблицами необходимо подключиться к БД\n");
-            return;
+            return null;
         }
 
-        String tableName = "\"" + queryList.get(1).trim() + "\""; // имя таблицы заключаем в двойные кавычки
+        String tableName = "\"" + queryList.get(1) + "\""; // имя таблицы заключаем в двойные кавычки
         try {
             List<DataSet> tableContent = dbm.find(tableName); //"SELECT * FROM users"
 
@@ -37,12 +37,13 @@ public class Find {
                     writer.write(ds.toString());
                     writer.write("\n");
                 }
+
+                return tableContent;
             }
         } catch (SQLException e) {
             writer.writeln(">\t\tНе удалось получить данные из таблицы " + tableName);
             writer.writeln(">\t\t" + e.getLocalizedMessage());
         }
-
-
+        return null;
     }
 }

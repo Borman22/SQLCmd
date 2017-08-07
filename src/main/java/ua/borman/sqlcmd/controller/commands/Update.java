@@ -5,10 +5,10 @@ import ua.borman.sqlcmd.view.ConsoleWriter;
 import ua.borman.sqlcmd.view.Writer;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.List;
 
 public class Update {
-    public static void update(ArrayList<String> queryList, DatabaseManager dbm) {
+    public static void update(List<String> queryList, DatabaseManager dbm) {
         Writer writer = new ConsoleWriter();
         if (queryList.size() != 6) { // update | tableName | column1 | value1 | column2 | value2
             writer.writeln(">\tОперация не выполнена. Причина: у команды update должно быть 5 аргументов: " +

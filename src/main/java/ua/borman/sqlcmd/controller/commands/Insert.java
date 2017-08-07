@@ -6,9 +6,10 @@ import ua.borman.sqlcmd.view.Writer;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Insert {
-    public static void insert(ArrayList<String> queryList, DatabaseManager dbm) {
+    public static void insert(List<String> queryList, DatabaseManager dbm) {
         Writer writer = new ConsoleWriter();
         if (queryList.size() < 4){
             writer.writeln(">\tОперация не выполнена. Причина: у команды insert должно быть минимум 3 аргумента: " +

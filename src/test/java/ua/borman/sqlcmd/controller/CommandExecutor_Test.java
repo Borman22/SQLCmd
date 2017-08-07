@@ -1,18 +1,13 @@
 package ua.borman.sqlcmd.controller;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 
+import static org.junit.Assert.assertTrue;
+
 public class CommandExecutor_Test {
-
-    @BeforeClass
-    public static void before(){
-
-    }
-
     @Test
-    public void executeTest(){
-
+    public void test(){
+    // Этот класс протестился почти полностью т.к. через него делались все вызовы
+        assertTrue(true);
     }
-
 }

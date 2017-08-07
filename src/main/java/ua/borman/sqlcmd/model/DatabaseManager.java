@@ -26,7 +26,7 @@ public class DatabaseManager {
         }
     }
 
-    public void create(ArrayList<String> columnList) throws SQLException {
+    public void create(List<String> columnList) throws SQLException {
         StringBuilder query;
         if(columnList.size() == 1) {
             query = new StringBuilder("CREATE TABLE ").append(columnList.get(0)).append(" ()");
@@ -52,7 +52,7 @@ public class DatabaseManager {
     }
 
 
-    public void delete(ArrayList<String> columnList) throws SQLException {
+    public void delete(List<String> columnList) throws SQLException {
         StringBuilder query = new StringBuilder("DELETE FROM ").append(columnList.get(0)).append(" WHERE ");
 
         int i;
@@ -99,10 +99,10 @@ public class DatabaseManager {
         return result;
     }
 
-    public void insert(ArrayList<String> columnList) throws SQLException {
+    public void insert(List<String> columnList) throws SQLException {
         StringBuilder query = new StringBuilder("INSERT INTO " + columnList.get(0) + " (");  // "INSERT INTO users (name, password) VALUES ('borman', '1234wedfxc')"
-        ArrayList<String> columnName = new ArrayList<>();
-        ArrayList<String> value = new ArrayList<>();
+        List<String> columnName = new ArrayList<>();
+        List<String> value = new ArrayList<>();
 
         for (int i = 1; i < columnList.size(); i++) {
             columnName.add(columnList.get(i++));
@@ -127,8 +127,8 @@ public class DatabaseManager {
 
     }
 
-    public ArrayList<String> tables() throws SQLException {  // TODO Сделать, чтобы можно было выбирать схему
-        ArrayList<String> list = new ArrayList<>();
+    public List<String> tables() throws SQLException {  // TODO Сделать, чтобы можно было выбирать схему
+        List<String> list = new ArrayList<>();
         try(Statement statement = connection.createStatement()) {
             DatabaseMetaData md = connection.getMetaData();
             ResultSet rs = md.getTables(null, "public", "%", null);
@@ -139,7 +139,7 @@ public class DatabaseManager {
         return list;
     }
 
-    public void update(ArrayList<String> columnList) throws SQLException {
+    public void update(List<String> columnList) throws SQLException {
         // statement.executeUpdate("UPDATE users SET password = 123 WHERE id > 10");
         StringBuilder query = new StringBuilder("UPDATE ").append(columnList.get(0)).append(" SET ").append(columnList.get(3)).append(" = ").append(columnList.get(4)).append(" WHERE ").append(columnList.get(1)).append(" = ").append(columnList.get(2));  // "INSERT INTO users (name, password) VALUES ('borman', '1234wedfxc')"
 
@@ -148,7 +148,7 @@ public class DatabaseManager {
         }
     }
 
-    public void connect(ArrayList<String> queryList) throws SQLException {
+    public void connect(List<String> queryList) throws SQLException {
         if (connection != null && !connection.isClosed()) {
             System.out.println(">\tСоединение с базой данных уже установлено.\n" +
                     ">\tЧтобы установить новое соединение, сначала необходимо закрыть текущее командой close\n");

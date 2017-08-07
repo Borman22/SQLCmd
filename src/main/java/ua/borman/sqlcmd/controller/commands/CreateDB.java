@@ -6,9 +6,11 @@ import ua.borman.sqlcmd.view.Writer;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class CreateDB {
-    public static void createDB(ArrayList<String> queryList, DatabaseManager dbm){ // createDB | dbName | username | password
+    public static void createDB(List<String> queryList, DatabaseManager dbm){ // createDB | dbName | username | password
         Writer writer = new ConsoleWriter();
         queryList.remove(0); // удаляем команду createDB
 
@@ -20,8 +22,9 @@ public class CreateDB {
                 return;
             }
         } else if( queryList.size() == 3) {
+
             if (!dbm.isConnected()) {
-                ArrayList<String> tempList = new ArrayList<>();
+                List<String> tempList = new ArrayList<>();
                 tempList.add("connect");
                 tempList.add("");
                 tempList.add(queryList.get(1));
@@ -36,7 +39,7 @@ public class CreateDB {
             writer.writeln(">\tОперация не выполнена. Причина: неправильный формат команды.\n");
             return;
         }
-
+        queryList.set(0, "\"" + queryList.get(0) + "\"");
         try {
             dbm.createDB(queryList.get(0));
             writer.writeln(">\tБаза данных " + queryList.get(0)+ " успешно создана\n");

@@ -6,9 +6,10 @@ import ua.borman.sqlcmd.view.Writer;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Delete {
-    public static void delete(ArrayList<String> queryList, DatabaseManager dbm) {
+    public static void delete(List<String> queryList, DatabaseManager dbm) {
         Writer writer = new ConsoleWriter();
         if (queryList.size() < 4){
             writer.writeln(">\tОперация не выполнена. Причина: у команды delete должно быть минимум 3 аргумента: " +
@@ -27,12 +28,12 @@ public class Delete {
         }
 
         queryList.remove(0);
-        queryList.set(0, "\"" + queryList.get(0).trim() + "\""); // имя таблицы заключаем в двойные кавычки
+        queryList.set(0, "\"" + queryList.get(0) + "\""); // имя таблицы заключаем в двойные кавычки
         for (int i = 1; i < queryList.size(); i++) {
             if(i % 2 == 1){
-                queryList.set(i, "\"" + queryList.get(i).trim() + "\""); // имя столбца заключаем в двойные кавычки
+                queryList.set(i, "\"" + queryList.get(i) + "\""); // имя столбца заключаем в двойные кавычки
             } else {
-                queryList.set(i, "\'" + queryList.get(i).trim() + "\'"); // значение заключаем в одинарные кавычки
+                queryList.set(i, "\'" + queryList.get(i) + "\'"); // значение заключаем в одинарные кавычки
             }
         }
         try {

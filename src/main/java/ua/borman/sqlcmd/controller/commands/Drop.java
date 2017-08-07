@@ -5,11 +5,11 @@ import ua.borman.sqlcmd.view.ConsoleWriter;
 import ua.borman.sqlcmd.view.Writer;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.List;
 
 
 public class Drop {
-    public static void drop(ArrayList<String> queryList, DatabaseManager dbm) {
+    public static void drop(List<String> queryList, DatabaseManager dbm) {
         Writer writer = new ConsoleWriter();
         if (queryList.size() != 2){
             writer.writeln(">\tОперация не выполнена. Причина: количество аргументов команды drop != 1\n");
@@ -21,7 +21,7 @@ public class Drop {
             return;
         }
 
-        String tableName = "\"" + queryList.get(1).trim() + "\"";
+        String tableName = "\"" + queryList.get(1) + "\"";
         try {
             dbm.drop(tableName);
             writer.writeln(">\tТаблица удалена\n");
