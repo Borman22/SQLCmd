@@ -119,7 +119,10 @@ public class Templates_For_Tests {
         }
         try {
             statement.executeUpdate("DROP DATABASE " + "\"" + DB_NAME + "\"");
-        } catch (SQLException e) { /*Если будет Exception, значит скорее всего БД не существует */ }
+        } catch (SQLException e) {
+            System.out.println("Не удается удалить базу данных");
+            System.out.println(e.getLocalizedMessage());
+        }
 
         try {
             connection.close();

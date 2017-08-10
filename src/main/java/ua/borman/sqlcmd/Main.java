@@ -1,8 +1,7 @@
 package ua.borman.sqlcmd;
-// TODO Переделать DataSet
 // TODO Сделать форматированный вывод в Find
 // TODO Написать тесты к Find
-// TODO Написать тесты к DataSet
+// TODO Написать тесты к Table
 
 import ua.borman.sqlcmd.controller.CommandExecutor;
 import ua.borman.sqlcmd.model.DatabaseManager;

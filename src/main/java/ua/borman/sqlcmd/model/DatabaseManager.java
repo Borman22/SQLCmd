@@ -1,6 +1,7 @@
 package ua.borman.sqlcmd.model;
 
-import ua.borman.sqlcmd.controller.DataSet;
+import ua.borman.sqlcmd.controller.Table;
+import ua.borman.sqlcmd.controller.Table.Row;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,14 +12,14 @@ public class DatabaseManager {
     private Connection connection = null;
 
     public void clear(String tableName) throws SQLException {
-        try(Statement statement = connection.createStatement()) {
+        try (Statement statement = connection.createStatement()) {
             statement.executeUpdate("DELETE FROM " + tableName);
         }
 
     }
 
     public int close() throws SQLException {
-        if(isConnected()){
+        if (isConnected()) {
             connection.close();
             return 0;
         } else {
@@ -28,7 +29,7 @@ public class DatabaseManager {
 
     public void create(List<String> columnList) throws SQLException {
         StringBuilder query;
-        if(columnList.size() == 1) {
+        if (columnList.size() == 1) {
             query = new StringBuilder("CREATE TABLE ").append(columnList.get(0)).append(" ()");
         } else {
             query = new StringBuilder("CREATE TABLE ").append(columnList.get(0)).append(" ("); // первая запись - tableName, остальные - columnName
@@ -51,7 +52,6 @@ public class DatabaseManager {
         }
     }
 
-
     public void delete(List<String> columnList) throws SQLException {
         StringBuilder query = new StringBuilder("DELETE FROM ").append(columnList.get(0)).append(" WHERE ");
 
@@ -66,12 +66,10 @@ public class DatabaseManager {
     }
 
     public void drop(String tableName) throws SQLException {
-        try(Statement statement = connection.createStatement()) {
+        try (Statement statement = connection.createStatement()) {
             statement.executeUpdate("DROP TABLE " + tableName);
         }
     }
-
-
 
     public void dropDB(String dbName) throws SQLException {
         try (Statement statement = connection.createStatement()) {
@@ -79,24 +77,27 @@ public class DatabaseManager {
         }
     }
 
-    public List<DataSet> find(String tableName) throws SQLException {
-        List<DataSet> result = new ArrayList<>();
+    public Table find(String tableName) throws SQLException {
         try (Statement statement = connection.createStatement()) {
             ResultSet rs = statement.executeQuery("SELECT * FROM " + tableName);
 
-            int columnCount = rs.getMetaData().getColumnCount();
-
             ResultSetMetaData rsmd = rs.getMetaData();
-            while (rs.next()){
-                DataSet dataSet = new DataSet();
-                for (int i = 1; i <= columnCount; i++) {
-                    dataSet.put(rsmd.getColumnLabel(i), rs.getObject(i));
-                }
-                result.add(dataSet);
+            int columnCount = rsmd.getColumnCount();
+            Table table = new Table(columnCount);
+
+            for (int i = 1; i <= columnCount; i++) {
+                table.addColumnName(rsmd.getColumnLabel(i));
             }
+
+            while (rs.next()) {
+                Row newRow = table.addNewRow();
+                for (int i = 1; i <= columnCount; i++)
+                    newRow.setElementValue(rsmd.getColumnLabel(i), rs.getObject(i));
+            }
+
             rs.close();
+            return table;
         }
-        return result;
     }
 
     public void insert(List<String> columnList) throws SQLException {
@@ -116,7 +117,7 @@ public class DatabaseManager {
         query.append(columnName.get(i)).append(") VALUES (");
 
         i = 0;
-        for( ; i < value.size() - 1; i++){
+        for (; i < value.size() - 1; i++) {
             query.append(value.get(i)).append(", ");
         }
         query.append(value.get(i)).append(")");
@@ -129,10 +130,10 @@ public class DatabaseManager {
 
     public List<String> tables() throws SQLException {  // TODO Сделать, чтобы можно было выбирать схему
         List<String> list = new ArrayList<>();
-        try(Statement statement = connection.createStatement()) {
+        try (Statement statement = connection.createStatement()) {
             DatabaseMetaData md = connection.getMetaData();
             ResultSet rs = md.getTables(null, "public", "%", null);
-            while(rs.next()){
+            while (rs.next()) {
                 list.add(rs.getString("TABLE_NAME"));
             }
         }
@@ -161,22 +162,20 @@ public class DatabaseManager {
             System.out.println(">\tОШИБКА! Не подключен SQL драйвер JDBC!\n");
             return;
         }
-        String host = (queryList.size() == 4) ? "jdbc:postgresql://" + queryList.get(3) + "/"  : "jdbc:postgresql://localhost:5432/";
+        String host = (queryList.size() == 4) ? "jdbc:postgresql://" + queryList.get(3) + "/" : "jdbc:postgresql://localhost:5432/";
 
 
         connection = DriverManager.getConnection(host + queryList.get(0) + LOGGER_LEVEL_OFF, queryList.get(1), queryList.get(2));
         if ((connection != null) && (!connection.isClosed()))
-            if(queryList.get(0).equals("")) {
+            if (queryList.get(0).equals("")) {
                 System.out.println(">\tПодключение к SQL серверу установлено.\n");
             } else {
                 System.out.println(">\tПодключение к базе данных установлено.\n");
             }
-        }
-
-
+    }
 
     public void closeConnection() {
-        if(isConnected()) {
+        if (isConnected()) {
             try {
                 connection.close();
             } catch (SQLException e) {
@@ -185,9 +184,9 @@ public class DatabaseManager {
         }
     }
 
-    public boolean isConnected(){
+    public boolean isConnected() {
         try {
-            if(connection != null && !connection.isClosed()){
+            if (connection != null && !connection.isClosed()) {
                 return true;
             }
         } catch (SQLException e) {
