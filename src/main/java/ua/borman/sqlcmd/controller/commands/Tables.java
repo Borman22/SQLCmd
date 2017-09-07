@@ -1,17 +1,16 @@
 package ua.borman.sqlcmd.controller.commands;
 
 import ua.borman.sqlcmd.model.DatabaseManager;
-import ua.borman.sqlcmd.view.ConsoleWriter;
-import ua.borman.sqlcmd.view.Writer;
+import ua.borman.sqlcmd.view.Console;
+import ua.borman.sqlcmd.view.View;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 
 public class Tables {
     public static List<String> getTables(List<String> queryList, DatabaseManager dbm) {
-        Writer writer = new ConsoleWriter();
+        View writer = new Console();
         if (queryList.size() != 1){
             writer.writeln(">\tОперация не выполнена. Причина: количество аргументов команды tables != 0\n");
             return null;

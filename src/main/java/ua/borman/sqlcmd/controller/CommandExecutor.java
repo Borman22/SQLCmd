@@ -3,8 +3,8 @@ package ua.borman.sqlcmd.controller;
 
 import ua.borman.sqlcmd.controller.commands.*;
 import ua.borman.sqlcmd.model.DatabaseManager;
-import ua.borman.sqlcmd.view.ConsoleWriter;
-import ua.borman.sqlcmd.view.Writer;
+import ua.borman.sqlcmd.view.Console;
+import ua.borman.sqlcmd.view.View;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,7 +22,7 @@ public class CommandExecutor {
 
         queryList.set(0, queryList.get(0).toLowerCase());
 
-        Writer writer = new ConsoleWriter();
+        View writer = new Console();
 
         if (queryList.size() != 0) {
             if(queryList.size() == 1 && queryList.get(0).equals("")) return;

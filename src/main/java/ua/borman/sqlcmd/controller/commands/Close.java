@@ -1,15 +1,15 @@
 package ua.borman.sqlcmd.controller.commands;
 
 import ua.borman.sqlcmd.model.DatabaseManager;
-import ua.borman.sqlcmd.view.ConsoleWriter;
-import ua.borman.sqlcmd.view.Writer;
+import ua.borman.sqlcmd.view.Console;
+import ua.borman.sqlcmd.view.View;
 
 import java.sql.SQLException;
 
 public class Close {
     public static void close(DatabaseManager dbm){
 
-         Writer writer = new ConsoleWriter();
+        View writer = new Console();
          try {
             int status = dbm.close();
             if (status == 0) {

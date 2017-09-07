@@ -2,15 +2,15 @@ package ua.borman.sqlcmd.controller.commands;
 
 import ua.borman.sqlcmd.controller.Table;
 import ua.borman.sqlcmd.model.DatabaseManager;
-import ua.borman.sqlcmd.view.ConsoleWriter;
-import ua.borman.sqlcmd.view.Writer;
+import ua.borman.sqlcmd.view.Console;
+import ua.borman.sqlcmd.view.View;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Find {
     public static Table find(ArrayList<String> queryList, DatabaseManager dbm) {
-        Writer writer = new ConsoleWriter();
+        View writer = new Console();
         if (queryList.size() != 2){
             writer.writeln(">\tОперация не выполнена. Причина: у команды find должен быть 1 аргумент: tableName\n");
             return null;

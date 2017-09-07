@@ -1,12 +1,12 @@
 package ua.borman.sqlcmd.controller.commands;
 
 import ua.borman.sqlcmd.model.DatabaseManager;
-import ua.borman.sqlcmd.view.ConsoleWriter;
-import ua.borman.sqlcmd.view.Writer;
+import ua.borman.sqlcmd.view.Console;
+import ua.borman.sqlcmd.view.View;
 
 public class Exit {
     public static void exit(DatabaseManager dbm){
-        Writer writer = new ConsoleWriter();
+        View writer = new Console();
         writer.writeln("Спасибо, что воспользовались нашей программой. Adios!");
         try {
             dbm.closeConnection();

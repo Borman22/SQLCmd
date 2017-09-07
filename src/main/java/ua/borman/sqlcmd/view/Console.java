@@ -2,7 +2,7 @@ package ua.borman.sqlcmd.view;
 
 import java.util.Scanner;
 
-public class ConsoleReader implements Reader {
+public class Console implements View {
 
     @Override
     public String read() {
@@ -13,5 +13,13 @@ public class ConsoleReader implements Reader {
         return "";
     }
 
+    @Override
+    public void write(String message) {
+        System.out.print(message);
+    }
 
+    @Override
+    public void writeln(String message) {
+        System.out.println(message);
+    }
 }

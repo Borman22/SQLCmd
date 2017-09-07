@@ -1,15 +1,15 @@
 package ua.borman.sqlcmd.controller.commands;
 
 import ua.borman.sqlcmd.model.DatabaseManager;
-import ua.borman.sqlcmd.view.ConsoleWriter;
-import ua.borman.sqlcmd.view.Writer;
+import ua.borman.sqlcmd.view.Console;
+import ua.borman.sqlcmd.view.View;
 
 import java.sql.SQLException;
 import java.util.List;
 
 public class Update {
     public static void update(List<String> queryList, DatabaseManager dbm) {
-        Writer writer = new ConsoleWriter();
+        View writer = new Console();
         if (queryList.size() != 6) { // update | tableName | column1 | value1 | column2 | value2
             writer.writeln(">\tОперация не выполнена. Причина: у команды update должно быть 5 аргументов: " +
                     "tableName, verifyColumn, verifyValue, goalColumn, newValue\n");

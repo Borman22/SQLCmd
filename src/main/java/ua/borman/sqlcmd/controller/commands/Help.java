@@ -1,7 +1,7 @@
 package ua.borman.sqlcmd.controller.commands;
 
-import ua.borman.sqlcmd.view.ConsoleWriter;
-import ua.borman.sqlcmd.view.Writer;
+import ua.borman.sqlcmd.view.Console;
+import ua.borman.sqlcmd.view.View;
 
 import java.util.ArrayList;
 
@@ -26,7 +26,7 @@ public class Help {
             ">\tНапример help|create\n";
 
     public static void help(ArrayList<String> queryList) {
-        Writer writer = new ConsoleWriter();
+        View writer = new Console();
         if (queryList.size() > 1) {
             queryList.set(1, queryList.get(1).trim().toLowerCase());
             switch (queryList.get(1)) {

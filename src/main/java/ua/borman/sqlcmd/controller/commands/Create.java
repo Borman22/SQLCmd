@@ -1,16 +1,15 @@
 package ua.borman.sqlcmd.controller.commands;
 
 import ua.borman.sqlcmd.model.DatabaseManager;
-import ua.borman.sqlcmd.view.ConsoleWriter;
-import ua.borman.sqlcmd.view.Writer;
+import ua.borman.sqlcmd.view.Console;
+import ua.borman.sqlcmd.view.View;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Create {
     public static void create(List<String> queryList, DatabaseManager dbm) {
-        Writer writer = new ConsoleWriter();
+        View writer = new Console();
         if (queryList.size() < 2){
             writer.writeln(">\tОперация не выполнена. Причина: количество аргументов команды create == 0\n");
             return;

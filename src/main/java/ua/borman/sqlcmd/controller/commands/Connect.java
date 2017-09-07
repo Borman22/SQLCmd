@@ -1,8 +1,8 @@
 package ua.borman.sqlcmd.controller.commands;
 
 import ua.borman.sqlcmd.model.DatabaseManager;
-import ua.borman.sqlcmd.view.ConsoleWriter;
-import ua.borman.sqlcmd.view.Writer;
+import ua.borman.sqlcmd.view.Console;
+import ua.borman.sqlcmd.view.View;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.List;
 public class Connect {
 
     public static void connect(List<String> queryList, DatabaseManager dbm) {
-        Writer writer = new ConsoleWriter();
+        View writer = new Console();
         queryList.remove(0); // удаляем команду
 
         if (queryList.size() == 3 || queryList.size() == 4) {

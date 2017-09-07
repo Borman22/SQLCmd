@@ -1,15 +1,15 @@
 package ua.borman.sqlcmd.controller.commands;
 
 import ua.borman.sqlcmd.model.DatabaseManager;
-import ua.borman.sqlcmd.view.ConsoleWriter;
-import ua.borman.sqlcmd.view.Writer;
+import ua.borman.sqlcmd.view.Console;
+import ua.borman.sqlcmd.view.View;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class DropDB {
     public static void dropDB(ArrayList<String> queryList, DatabaseManager dbm) { // createDB | dbName | username | password
-        Writer writer = new ConsoleWriter();
+        View writer = new Console();
         queryList.remove(0); // удаляем команду dropDB
 
         if(queryList.size() == 1){
