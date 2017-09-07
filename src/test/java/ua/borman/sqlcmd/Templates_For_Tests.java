@@ -3,6 +3,7 @@ package ua.borman.sqlcmd;
 import ua.borman.sqlcmd.controller.CommandExecutor;
 import ua.borman.sqlcmd.controller.commands.*;
 import ua.borman.sqlcmd.model.DatabaseManager;
+import ua.borman.sqlcmd.view.Console;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -143,7 +144,7 @@ public class Templates_For_Tests {
 
     public static CommandExecutor getCommandExecutor(){
         if(executor == null)
-            executor = new CommandExecutor();
+            executor = new CommandExecutor(new Console());
         return executor;
     }
 

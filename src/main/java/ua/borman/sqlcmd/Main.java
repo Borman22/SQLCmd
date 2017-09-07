@@ -12,15 +12,14 @@ public class Main {
 
     public static void main(String[] args)  {
 
-        Console writer = new Console();
-        writer.writeln(">\tЧтобы подключиться к базе данных введите:");
-        writer.writeln(">\tconnect|database|username|password");
-        writer.writeln(">\tВыход - exit. Список всех команд - help\n");
+        View view = new Console();
+        view.writeln(">\tЧтобы подключиться к базе данных введите:");
+        view.writeln(">\tconnect|database|username|password");
+        view.writeln(">\tВыход - exit. Список всех команд - help\n");
 
         DatabaseManager dbm = new DatabaseManager();
 
-        View view = new Console();
-        CommandExecutor commandExecutor = new CommandExecutor();
+        CommandExecutor commandExecutor = new CommandExecutor(view);
         while(true){
             String newCommand = view.read();
             commandExecutor.execute(newCommand, dbm);

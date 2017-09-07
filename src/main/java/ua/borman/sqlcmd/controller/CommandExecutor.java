@@ -8,8 +8,18 @@ import ua.borman.sqlcmd.view.View;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class CommandExecutor {
+
+    private Command [] commands;
+
+    private final View view;
+
+    public CommandExecutor(View view) {
+        this.view = view;
+        commands = new Command[]{new Help(view)};
+    }
 
     public void execute(String str, DatabaseManager dbm) {
         String[] queryArray = str.split("\\|");
@@ -22,11 +32,21 @@ public class CommandExecutor {
 
         queryList.set(0, queryList.get(0).toLowerCase());
 
-        View writer = new Console();
-
         if (queryList.size() != 0) {
             if(queryList.size() == 1 && queryList.get(0).equals("")) return;
+
+            for (Command tempCommand : commands) {
+                if(tempCommand.canProcess(queryList.get(0))) {
+                    tempCommand.process(queryList);
+                    break;
+                }
+            }
+
             switch (queryList.get(0)) {
+                case "help":
+                    view.writeln("Уже еализована в паттерне Команда");
+                    break;
+
                 case "connect":
                     Connect.connect(queryList, dbm);
                     break;
@@ -71,10 +91,6 @@ public class CommandExecutor {
                     Delete.delete(queryList, dbm);
                     break;
 
-                case "help":
-                    Help.help(queryList);
-                    break;
-
                 case "exit":
                     Exit.exit(dbm);
                     break;
@@ -84,8 +100,8 @@ public class CommandExecutor {
                     break;
 
                 default:
-                    writer.writeln("\nОшибка! Несуществующая команда!");
-                    writer.writeln("Чтобы посмотреть доступные команды, напишите help");
+                    view.writeln("\nОшибка! Несуществующая команда!");
+                    view.writeln("Чтобы посмотреть доступные команды, напишите help");
 
             }
         }
