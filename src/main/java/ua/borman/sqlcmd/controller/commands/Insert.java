@@ -19,20 +19,20 @@ public class Insert implements Command{
 
     @Override
     public void process(List<String> queryList) {
-        View writer = new Console();
+
         if (queryList.size() < 4){
-            writer.writeln(">\tОперация не выполнена. Причина: у команды insert должно быть минимум 3 аргумента: " +
+            view.writeln(">\tОперация не выполнена. Причина: у команды insert должно быть минимум 3 аргумента: " +
                     "tableName, column_1, value_1\n");
             return;
         }
 
         if(queryList.size() % 2 != 0){
-            writer.writeln(">\tОперация не выполнена. Причина: запрос не соответствует фомату: " +
+            view.writeln(">\tОперация не выполнена. Причина: запрос не соответствует фомату: " +
                     "tableName, column_1, value_1, column_2, value_2, ..., column_N, value_N \n");
         }
 
         if(!dbm.isConnected()){
-            writer.writeln(">\tЧтобы работать с таблицами необходимо подключиться к БД\n");
+            view.writeln(">\tЧтобы работать с таблицами необходимо подключиться к БД\n");
             return;
         }
 
@@ -48,10 +48,10 @@ public class Insert implements Command{
         }
         try {
             dbm.insert(queryList);
-            writer.writeln(">\tВ таблицу вставлена строка\n");
+            view.writeln(">\tВ таблицу вставлена строка\n");
         } catch (SQLException e) {
-            writer.writeln(">\tВ таблицу не удалось вставить строку.");
-            writer.writeln(">\t" + e.getLocalizedMessage());
+            view.writeln(">\tВ таблицу не удалось вставить строку.");
+            view.writeln(">\t" + e.getLocalizedMessage());
         }
     }
 
