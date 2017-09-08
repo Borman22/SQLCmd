@@ -1,21 +1,36 @@
 package ua.borman.sqlcmd.controller.commands;
 
 import ua.borman.sqlcmd.model.DatabaseManager;
-import ua.borman.sqlcmd.view.Console;
 import ua.borman.sqlcmd.view.View;
 
-public class Exit {
-    public static void exit(DatabaseManager dbm){
-        View writer = new Console();
-        writer.writeln("Спасибо, что воспользовались нашей программой. Adios!");
+import java.util.List;
+
+public class Exit implements Command{
+    private final DatabaseManager dbm;
+    private final View view;
+
+    public Exit(DatabaseManager dbm, View view) {
+        this.dbm = dbm;
+        this.view = view;
+    }
+
+    @Override
+    public void process(List<String> queryList) {
+        view.writeln("Спасибо, что воспользовались нашей программой. Adios!");
         try {
             dbm.closeConnection();
         } catch (Exception a){
-            writer.writeln(a.getMessage());
+            view.writeln(a.getMessage());
             if(a.getCause() != null){
-                writer.writeln(a.getCause().getLocalizedMessage());
+                view.writeln(a.getCause().getLocalizedMessage());
             }
         }
         System.exit(0);
     }
+
+    @Override
+    public boolean canProcess(String command) {
+        return command.equals("exit");
+    }
+
 }

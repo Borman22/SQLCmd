@@ -19,10 +19,10 @@ public class Main {
 
         DatabaseManager dbm = new DatabaseManager();
 
-        CommandExecutor commandExecutor = new CommandExecutor(view);
+        CommandExecutor commandExecutor = new CommandExecutor(view, dbm);
         while(true){
             String newCommand = view.read();
-            commandExecutor.execute(newCommand, dbm);
+            commandExecutor.execute(newCommand);
         }
     }
 

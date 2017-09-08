@@ -3,25 +3,25 @@ package ua.borman.sqlcmd.controller;
 
 import ua.borman.sqlcmd.controller.commands.*;
 import ua.borman.sqlcmd.model.DatabaseManager;
-import ua.borman.sqlcmd.view.Console;
 import ua.borman.sqlcmd.view.View;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 public class CommandExecutor {
 
+    private final DatabaseManager dbm;
     private Command [] commands;
 
     private final View view;
 
-    public CommandExecutor(View view) {
+    public CommandExecutor(View view, DatabaseManager dbm) {
         this.view = view;
-        commands = new Command[]{new Help(view)};
+        this.dbm = dbm;
+        commands = new Command[]{new Help(view), new Exit(dbm, view)};
     }
 
-    public void execute(String str, DatabaseManager dbm) {
+    public void execute(String str) {
         String[] queryArray = str.split("\\|");
 
         for (int i = 0; i < queryArray.length; i++) {
@@ -44,6 +44,10 @@ public class CommandExecutor {
 
             switch (queryList.get(0)) {
                 case "help":
+                    view.writeln("Уже еализована в паттерне Команда");
+                    break;
+
+                case "exit":
                     view.writeln("Уже еализована в паттерне Команда");
                     break;
 
@@ -89,10 +93,6 @@ public class CommandExecutor {
 
                 case "delete":
                     Delete.delete(queryList, dbm);
-                    break;
-
-                case "exit":
-                    Exit.exit(dbm);
                     break;
 
                 case "close":
