@@ -13,14 +13,14 @@ public class Tables implements Command {
 
     private final DatabaseManager dbm;
     private final View view;
-    private List<String> tempList = new ArrayList<>();
+    private List<String> tempList = new ArrayList<>(); // Это для тестирования
 
     public Tables(DatabaseManager dbm, View view) {
         this.dbm = dbm;
         this.view = view;
     }
 
-    public Tables(DatabaseManager dbm, View view, List<String> tempList) {
+    public Tables(DatabaseManager dbm, View view, List<String> tempList) { // конструктор для тестирования
         this(dbm, view);
         this.tempList = tempList;
     }

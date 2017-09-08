@@ -51,7 +51,7 @@ public class Templates_For_Tests {
         try {
             connection = DriverManager.getConnection(HOST + dbName + LOGGER_LEVEL_OFF, USERNAME, PASSWORD);
         } catch (SQLException e) {
-            // System.err.println("Не удается подключиться к БД. Скорее всего ее нет.");
+            System.err.println("Не удается подключиться к БД. Скорее всего ее нет.");
             return null;
         }
         try {
