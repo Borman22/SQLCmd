@@ -29,7 +29,9 @@ public class Templates_For_Tests {
     public static final String USERNAME_FALSE = "postgreS";
     public static final String PASSWORD = "root";
     public static final String PASSWORD_FALSE = "rooT";
-    private static CommandExecutor executor = null;
+    private static View view = new Console();
+    private static DatabaseManager dbm = new DatabaseManager();
+    private static CommandExecutor executor = new CommandExecutor(view, dbm);
 
     public static Connection connectToSQL(String... dbNameArray){
         String dbName;
@@ -73,8 +75,10 @@ public class Templates_For_Tests {
     }
 
     public static void createdbWithoutTables(){
-        DatabaseManager dbm = new DatabaseManager();
-        CreateDB.createDB(getQueryList("createDB", DB_NAME, USERNAME, PASSWORD), dbm);
+        Connect connect = new Connect(dbm, view);
+        connect.process(getQueryList("connect", " ", USERNAME, PASSWORD));
+
+        new CreateDB(dbm, view).process(getQueryList("createDB", DB_NAME, USERNAME, PASSWORD));
         // Если не удалось создать БД, значит она уже есть
         try {
             dbm.close();
@@ -82,9 +86,9 @@ public class Templates_For_Tests {
             //DO NOTHING
         }
 
-        Connect.connect(getQueryList("connect", DB_NAME, USERNAME, PASSWORD), dbm);
-        Drop.drop(getQueryList("drop", TEST_TABLE), dbm);
-        Drop.drop(getQueryList("drop", TEST_TABLE_FALSE), dbm);
+        connect.process(getQueryList("connect", DB_NAME, USERNAME, PASSWORD));
+//        Drop.drop(getQueryList("drop", TEST_TABLE), dbm);
+//        Drop.drop(getQueryList("drop", TEST_TABLE_FALSE), dbm);
         try {
             dbm.close();
         } catch (SQLException e) {

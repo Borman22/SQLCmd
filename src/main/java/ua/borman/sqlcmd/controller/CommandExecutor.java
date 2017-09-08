@@ -21,7 +21,6 @@ public class CommandExecutor {
                 new Insert(dbm, view), new Tables(dbm, view), new Update(dbm, view), new DefaultCommand(view)};
     }
 
-
     public void execute(String str) {
 
         String[] queryArray = str.split("\\|");
