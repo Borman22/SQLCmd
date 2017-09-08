@@ -5,9 +5,21 @@ import ua.borman.sqlcmd.view.Console;
 import ua.borman.sqlcmd.view.View;
 
 import java.sql.SQLException;
+import java.util.List;
 
-public class Close {
-    public static void close(DatabaseManager dbm){
+public class Close implements Command{
+
+    private final DatabaseManager dbm;
+    private final View view;
+
+    public Close(DatabaseManager dbm, View view) {
+        this.dbm = dbm;
+        this.view = view;
+    }
+
+
+    @Override
+    public void process(List<String> queryList) {
 
         View writer = new Console();
          try {
@@ -23,4 +35,11 @@ public class Close {
              writer.writeln(">\t" + e.getLocalizedMessage());
         }
     }
+
+    @Override
+    public boolean canProcess(String command) {
+        return command.equals("close");
+    }
+
+
 }
