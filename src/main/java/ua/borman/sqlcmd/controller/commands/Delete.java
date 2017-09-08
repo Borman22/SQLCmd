@@ -8,23 +8,32 @@ import ua.borman.sqlcmd.view.View;
 import java.sql.SQLException;
 import java.util.List;
 
-public class Delete {
-    public static void delete(List<String> queryList, DatabaseManager dbm) {
-        View writer = new Console();
+public class Delete implements Command{
+
+    private final DatabaseManager dbm;
+    private final View view;
+
+    public Delete(DatabaseManager dbm, View view) {
+        this.dbm = dbm;
+        this.view = view;
+    }
+
+    @Override
+    public void process(List<String> queryList) {
 
         if (queryList.size() < 4){
-            writer.writeln(">\tОперация не выполнена. Причина: у команды delete должно быть минимум 3 аргумента: " +
+            view.writeln(">\tОперация не выполнена. Причина: у команды delete должно быть минимум 3 аргумента: " +
                     "tableName, column_1, value_1\n");
             return;
         }
 
         if(queryList.size() % 2 != 0){
-            writer.writeln(">\tОперация не выполнена. Причина: запрос не соответствует фомату: " +
+            view.writeln(">\tОперация не выполнена. Причина: запрос не соответствует фомату: " +
                     "tableName, column_1, value_1, column_2, value_2, ..., column_N, value_N \n");
         }
 
         if(!dbm.isConnected()){
-            writer.writeln(">\tЧтобы работать с таблицами необходимо подключиться к БД\n");
+            view.writeln(">\tЧтобы работать с таблицами необходимо подключиться к БД\n");
             return;
         }
 
@@ -39,10 +48,16 @@ public class Delete {
         }
         try {
             dbm.delete(queryList);
-            writer.writeln(">\tИз таблицы удалены данные\n");
+            view.writeln(">\tИз таблицы удалены данные\n");
         } catch (SQLException e) {
-            writer.writeln(">\tНе удалось удалить данные с таблицы.");
-            writer.writeln(">t" + e.getLocalizedMessage());
+            view.writeln(">\tНе удалось удалить данные с таблицы.");
+            view.writeln(">t" + e.getLocalizedMessage());
         }
     }
+
+    @Override
+    public boolean canProcess(String command) {
+        return command.equals("delete");
+    }
+
 }
