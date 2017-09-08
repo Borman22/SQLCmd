@@ -43,6 +43,7 @@ public class Tables implements Command {
             List<String> tablesList = dbm.tables();
             view.writeln(">\tВ базе данных содержатся таблицы: " + tablesList);
             view.writeln(">\tКоличество таблиц = " + tablesList.size());
+            tempList.clear();
             tempList.addAll(tablesList);
         } catch (SQLException e) {
             view.writeln(">\tНе удалось получить список всех таблиц");
