@@ -127,8 +127,9 @@ public class Templates_For_Tests {
         try {
             statement.executeUpdate("DROP DATABASE " + "\"" + DB_NAME + "\"");
         } catch (SQLException e) {
-            System.out.println("Не удается удалить базу данных");
+            System.out.println("Не удается удалить базу данных, скорее всего ее нет\n");
             System.out.println(e.getLocalizedMessage());
+            return;
         }
 
         try {

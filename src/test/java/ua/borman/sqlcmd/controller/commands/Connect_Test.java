@@ -24,7 +24,7 @@ public class Connect_Test {
     public void init(){
         dbm = new DatabaseManager();
         view = new Console();
-        executor = new CommandExecutor(new Console(), dbm);
+        executor = new CommandExecutor(view, dbm);
     }
 
     private boolean connectionIsReceived(String query) {
