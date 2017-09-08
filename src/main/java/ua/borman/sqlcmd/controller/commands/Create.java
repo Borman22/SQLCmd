@@ -7,16 +7,25 @@ import ua.borman.sqlcmd.view.View;
 import java.sql.SQLException;
 import java.util.List;
 
-public class Create {
-    public static void create(List<String> queryList, DatabaseManager dbm) {
-        View writer = new Console();
+public class Create implements Command{
+
+    private final DatabaseManager dbm;
+    private final View view;
+
+    public Create(DatabaseManager dbm, View view) {
+        this.dbm = dbm;
+        this.view = view;
+    }
+
+    @Override
+    public void process(List<String> queryList) {
         if (queryList.size() < 2){
-            writer.writeln(">\tОперация не выполнена. Причина: количество аргументов команды create == 0\n");
+            view.writeln(">\tОперация не выполнена. Причина: количество аргументов команды create == 0\n");
             return;
         }
 
         if(!dbm.isConnected()){
-            writer.writeln(">\tЧтобы работать с таблицами необходимо подключиться к БД\n");
+            view.writeln(">\tЧтобы работать с таблицами необходимо подключиться к БД\n");
             return;
         }
 
@@ -27,10 +36,16 @@ public class Create {
 
         try {
             dbm.create(queryList);
-            writer.writeln(">\tТаблица успешно создана\n");
+            view.writeln(">\tТаблица успешно создана\n");
         } catch (SQLException e) {
-            writer.writeln(">\tНе удалось создать таблицу.");
-            writer.writeln(">\t" + e.getLocalizedMessage());
+            view.writeln(">\tНе удалось создать таблицу.");
+            view.writeln(">\t" + e.getLocalizedMessage());
         }
     }
+
+    @Override
+    public boolean canProcess(String command) {
+        return command.equals("create");
+    }
+
 }

@@ -19,21 +19,21 @@ public class Connect implements Command{
 
     @Override
     public void process(List<String> queryList) {
-        View writer = new Console();
+
         queryList.remove(0); // удаляем команду
 
         if (queryList.size() == 3 || queryList.size() == 4) {
             try {
                 dbm.connect(queryList);
             } catch (SQLException e) {
-                writer.writeln(">\tНе удалось подключиться к базе данных. Проверте правильность написания имени БД, логина, пароля, хоста и порта.\n" +
+                view.writeln(">\tНе удалось подключиться к базе данных. Проверте правильность написания имени БД, логина, пароля, хоста и порта.\n" +
                         ">\tБуквы в верхнем регистре не равны буквам в нижнем");
-                writer.writeln(">\tВведите следующую команду\n");
+                view.writeln(">\tВведите следующую команду\n");
             }
             return;
         }
 
-        writer.writeln(">\tНеправильный формат запроса. Введите запрос в формате:" +
+        view.writeln(">\tНеправильный формат запроса. Введите запрос в формате:" +
                 ">\tconnect|database|username|password или connect|database|username|password|host:port");
     }
 

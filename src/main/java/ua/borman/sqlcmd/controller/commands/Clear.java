@@ -19,7 +19,6 @@ public class Clear implements Command{
 
     @Override
     public void process(List<String> queryList) {
-        View view = new Console();
 
         if(queryList.size() != 2){
             view.writeln(">\tОперация не выполнена. Причина: количество аргументов команды clear != 1\n");

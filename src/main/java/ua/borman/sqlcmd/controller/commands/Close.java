@@ -21,18 +21,17 @@ public class Close implements Command{
     @Override
     public void process(List<String> queryList) {
 
-        View writer = new Console();
          try {
             int status = dbm.close();
             if (status == 0) {
-                writer.writeln(">\tУспешно отключились от базы данныых ");
+                view.writeln(">\tУспешно отключились от базы данныых ");
             } else {
-                writer.writeln(">\tКоманда не выполнена, посколькy программа не была подключена ни к одной БД");
+                view.writeln(">\tКоманда не выполнена, посколькy программа не была подключена ни к одной БД");
             }
 
         } catch (SQLException e) {
-             writer.writeln(">\tНе удалось отключиться от базы данных ");
-             writer.writeln(">\t" + e.getLocalizedMessage());
+             view.writeln(">\tНе удалось отключиться от базы данных ");
+             view.writeln(">\t" + e.getLocalizedMessage());
         }
     }
 
