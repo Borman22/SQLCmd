@@ -27,8 +27,8 @@ public class Tables_Test {
 
     @BeforeClass
     public static void init(){
-        dbm = new DatabaseManager();
         view = new Console();
+        dbm = new DatabaseManager(view);
         executor = new CommandExecutor(view, dbm);
         createdbWithoutTables(dbm, view);
     }

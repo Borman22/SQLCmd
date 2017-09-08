@@ -24,8 +24,8 @@ public class Clear_Test {
 
     @BeforeClass
     public static void init(){
-        dbm = new DatabaseManager();
         view = new Console();
+        dbm = new DatabaseManager(view);
         executor = new CommandExecutor(view, dbm);
         createdbWithoutTables(dbm, view);
     }
@@ -51,8 +51,8 @@ public class Clear_Test {
             rs.next();
             countOfRows = rs.getInt(1);
         } catch (SQLException e) {
-            System.err.println("Не могу получить стейтмент");
-            e.printStackTrace();
+            view.writeln("Не могу получить стейтмент");
+            view.writeln(e.getLocalizedMessage());
         }
 
         assertEquals(countOfRows, 3);
@@ -64,8 +64,8 @@ public class Clear_Test {
             rs.next();
             countOfRows = rs.getInt(1);
         } catch (SQLException e) {
-            System.err.println("Не могу получить стейтмент");
-            e.printStackTrace();
+            view.writeln("Не могу получить стейтмент");
+            view.writeln(e.getLocalizedMessage());
         }
 
         assertEquals(countOfRows, 0);

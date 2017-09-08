@@ -21,32 +21,32 @@ public class DropDB_Test {
 
 
     private static Connection connection;
-    private static DatabaseManager dbm;
     private static View view;
+    private static DatabaseManager dbm;
     private static CommandExecutor executor;
 
     @BeforeClass
-    public static void init(){
-        dbm = new DatabaseManager();
+    public static void init() {
         view = new Console();
+        dbm = new DatabaseManager(view);
         executor = new CommandExecutor(view, dbm);
     }
 
     @Before
     public void init2() {
+        executor.execute(getQueryString("connect", "", USERNAME, PASSWORD));
         executor.execute(getQueryString("createdb", DB_NAME_FALSE, USERNAME, PASSWORD));
         executor.execute("close");
     }
 
     @Test
     public void dropDBTest() {
-        DatabaseManager dbm = new DatabaseManager();
-        CommandExecutor executor = getCommandExecutor(new Console(), dbm);
+
         executor.execute(getQueryString("connect", "", USERNAME, PASSWORD));
 
         Connection connection = connectToSQL(DB_NAME_FALSE);
         try {
-            if(connection == null || connection.isClosed()){
+            if (connection == null || connection.isClosed()) {
                 fail("База данных не создана - удалять нечего");
                 return;
             }
@@ -56,20 +56,25 @@ public class DropDB_Test {
         try {
             connection.close();
         } catch (SQLException e) {
-            System.err.println("Не удалось отключитьс от БД");
+            view.writeln("Не удалось отключитьс от БД");
         }
         executor.execute(getQueryString("dropDB", DB_NAME_FALSE));
+        executor.execute("close");
 
         connection = connectToSQL(DB_NAME_FALSE);
+
+
         try {
-            System.out.println(connection);
-            if(connection != null && !connection.isClosed()){
+            if (connection == null || connection.isClosed()) {
+                view.writeln("Все ОК, БД удалилась");
+            } else {
                 fail("База не удалилась - удалось к ней подключитсья");
                 disconnect(connection);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            view.writeln("Попытались сделать connection.isClosed(), но connection == " + connection);
+            view.writeln(e.getLocalizedMessage());
         }
-        executor.execute("close");
+
     }
 }

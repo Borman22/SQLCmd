@@ -17,7 +17,7 @@ public class Main {
         view.writeln(">\tconnect|database|username|password");
         view.writeln(">\tВыход - exit. Список всех команд - help\n");
 
-        DatabaseManager dbm = new DatabaseManager();
+        DatabaseManager dbm = new DatabaseManager(view);
 
         CommandExecutor commandExecutor = new CommandExecutor(view, dbm);
         while(true){

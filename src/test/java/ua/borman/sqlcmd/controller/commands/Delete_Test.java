@@ -24,8 +24,8 @@ public class Delete_Test {
 
     @BeforeClass
     public static void init(){
-        dbm = new DatabaseManager();
         view = new Console();
+        dbm = new DatabaseManager(view);
         executor = new CommandExecutor(view, dbm);
         createdbWithoutTables(dbm, view);
     }
@@ -50,8 +50,8 @@ public class Delete_Test {
             rs.next();
             countOfRows1 = rs.getInt(1);
         } catch (SQLException e) {
-            System.err.println("Не могу получить стейтмент");
-            System.err.println(e.getLocalizedMessage());
+            view.writeln("Не могу получить стейтмент");
+            view.writeln(e.getLocalizedMessage());
         }
 
         assertEquals(countOfRows1, 3);
@@ -64,8 +64,8 @@ public class Delete_Test {
             rs.next();
             countOfRows2 = rs.getInt(1);
         } catch (SQLException e) {
-            System.err.println("Опять не могу получить стейтмент");
-            e.printStackTrace();
+            view.writeln("Опять не могу получить стейтмент");
+            view.writeln(e.getLocalizedMessage());
         }
 
         assertEquals(countOfRows1 - 1, countOfRows2);

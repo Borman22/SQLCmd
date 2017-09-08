@@ -25,8 +25,8 @@ public class Insert_Test {
 
     @BeforeClass
     public static void init(){
-        dbm = new DatabaseManager();
         view = new Console();
+        dbm = new DatabaseManager(view);
         executor = new CommandExecutor(view, dbm);
         createdbWithoutTables(dbm, view);
     }
@@ -51,8 +51,8 @@ public class Insert_Test {
             rs.next();
             countOfRows1 = rs.getInt(1);
         } catch (SQLException e) {
-            System.err.println("Не могу получить стейтмент");
-            System.err.println(e.getLocalizedMessage());
+            view.writeln("Не могу получить стейтмент");
+            view.writeln(e.getLocalizedMessage());
         }
 
         executor.execute(getQueryString("insert", TEST_TABLE, "col1", "rN_c1_value", "col2", "rN_c2_value"));
@@ -63,8 +63,8 @@ public class Insert_Test {
             rs.next();
             countOfRows2 = rs.getInt(1);
         } catch (SQLException e) {
-            System.err.println("Опять не могу получить стейтмент");
-            e.printStackTrace();
+            view.writeln("Опять не могу получить стейтмент");
+            view.writeln(e.getLocalizedMessage());
         }
 
         assertEquals(countOfRows1, countOfRows2 - 1);

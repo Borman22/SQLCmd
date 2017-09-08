@@ -30,7 +30,7 @@ public class Templates_For_Tests {
     public static final String PASSWORD = "root";
     public static final String PASSWORD_FALSE = "rooT";
     private static View view = new Console();
-    private static DatabaseManager dbm = new DatabaseManager();
+    private static DatabaseManager dbm = new DatabaseManager(view);
     private static CommandExecutor executor = new CommandExecutor(view, dbm);
 
     public static Connection connectToSQL(String... dbNameArray){
@@ -44,21 +44,21 @@ public class Templates_For_Tests {
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
-            System.err.println(">\tОШИБКА! Не подключен SQL драйвер JDBC!\n");
+            view.writeln(">\tОШИБКА! Не подключен SQL драйвер JDBC!\n");
             return null;
         }
 
         try {
             connection = DriverManager.getConnection(HOST + dbName + LOGGER_LEVEL_OFF, USERNAME, PASSWORD);
         } catch (SQLException e) {
-            System.err.println("Не удается подключиться к БД. Скорее всего ее нет.");
+            view.writeln("Не удается подключиться к БД. Скорее всего ее нет.");
             return null;
         }
         try {
             if ((connection != null) && (!connection.isClosed()))
                 return connection;
         } catch (SQLException e) {
-            System.err.println("Не удается подключиться к БД");
+            view.writeln("Не удается подключиться к БД");
             return null;
         }
         return null;
@@ -70,7 +70,7 @@ public class Templates_For_Tests {
                 connection.close();
             }
         } catch (SQLException e) {
-            System.err.println("Не удается отключиться от SQL сервера");
+            view.writeln("Не удается отключиться от SQL сервера");
         }
     }
 
@@ -120,15 +120,15 @@ public class Templates_For_Tests {
         try {
             statement = connection.createStatement();
         } catch (SQLException e) {
-            System.err.println("Не удалось создать Statement");
-            System.err.println(e.getLocalizedMessage());
+            view.writeln("Не удалось создать Statement");
+            view.writeln(e.getLocalizedMessage());
             return;
         }
         try {
             statement.executeUpdate("DROP DATABASE " + "\"" + DB_NAME + "\"");
         } catch (SQLException e) {
-            System.out.println("Не удается удалить базу данных, скорее всего ее нет\n");
-            System.out.println(e.getLocalizedMessage());
+            view.writeln("Не удается удалить базу данных, скорее всего ее нет\n");
+            view.writeln(e.getLocalizedMessage());
             return;
         }
 
@@ -145,7 +145,7 @@ public class Templates_For_Tests {
                 disconnect(connection);
             }
         } catch (SQLException e) {
-            System.out.println(e.getLocalizedMessage());
+            view.writeln(e.getLocalizedMessage());
         }
     }
 

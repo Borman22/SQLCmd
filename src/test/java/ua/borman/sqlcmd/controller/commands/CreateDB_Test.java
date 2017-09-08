@@ -24,8 +24,8 @@ public class CreateDB_Test {
 
     @BeforeClass
     public static void init(){
-        dbm = new DatabaseManager();
         view = new Console();
+        dbm = new DatabaseManager(view);
         executor = new CommandExecutor(view, dbm);
     }
 
@@ -44,8 +44,8 @@ public class CreateDB_Test {
         try {
             dbm.close();
         } catch (SQLException e) {
-            System.err.println("Не удалось отключиться от SQL сервера");
-            System.out.println(e.getLocalizedMessage());
+            view.writeln("Не удалось отключиться от SQL сервера");
+            view.writeln(e.getLocalizedMessage());
         }
 
         connection = connectToSQL(DB_NAME);

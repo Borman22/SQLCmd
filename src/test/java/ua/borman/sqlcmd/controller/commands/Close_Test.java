@@ -20,8 +20,8 @@ public class Close_Test {
 
     @Before
     public void init(){
-        dbm = new DatabaseManager();
         view = new Console();
+        dbm = new DatabaseManager(view);
         executor = new CommandExecutor(view, dbm);
     }
 

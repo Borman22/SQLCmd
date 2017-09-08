@@ -2,6 +2,7 @@ package ua.borman.sqlcmd.model;
 
 import ua.borman.sqlcmd.controller.Table;
 import ua.borman.sqlcmd.controller.Table.Row;
+import ua.borman.sqlcmd.view.View;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,7 +10,12 @@ import java.util.List;
 
 public class DatabaseManager {
     private final String LOGGER_LEVEL_OFF = "?loggerLevel=OFF";
+    private final View view;
     private Connection connection = null;
+
+    public DatabaseManager(View view) {
+        this.view = view;
+    }
 
     public void clear(String tableName) throws SQLException {
         try (Statement statement = connection.createStatement()) {
@@ -152,7 +158,7 @@ public class DatabaseManager {
 
     public void connect(List<String> queryList) throws SQLException {
         if (connection != null && !connection.isClosed()) {
-            System.out.println(">\tСоединение с базой данных уже установлено.\n" +
+            view.writeln(">\tСоединение с базой данных уже установлено.\n" +
                     ">\tЧтобы установить новое соединение, сначала необходимо закрыть текущее командой close\n");
             return;
         }
@@ -160,7 +166,7 @@ public class DatabaseManager {
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
-            System.out.println(">\tОШИБКА! Не подключен SQL драйвер JDBC!\n");
+            view.writeln(">\tОШИБКА! Не подключен SQL драйвер JDBC!\n");
             return;
         }
         String host = (queryList.size() == 4) ? "jdbc:postgresql://" + queryList.get(3) + "/" : "jdbc:postgresql://localhost:5432/";
@@ -169,9 +175,9 @@ public class DatabaseManager {
         connection = DriverManager.getConnection(host + queryList.get(0) + LOGGER_LEVEL_OFF, queryList.get(1), queryList.get(2));
         if ((connection != null) && (!connection.isClosed()))
             if (queryList.get(0).equals("")) {
-                System.out.println(">\tПодключение к SQL серверу установлено.\n");
+                view.writeln(">\tПодключение к SQL серверу установлено.\n");
             } else {
-                System.out.println(">\tПодключение к базе данных установлено.\n");
+                view.writeln(">\tПодключение к базе данных установлено.\n");
             }
     }
 
@@ -201,8 +207,8 @@ public class DatabaseManager {
             if (!connection.isClosed())
                 connection.close();
         } catch (SQLException e) {
-            System.out.println("Не удалось закрыть соединение с базой данных");
-            e.printStackTrace();
+            view.writeln("Не удалось закрыть соединение с базой данных");
+            view.writeln(e.getLocalizedMessage());
         }
     }
 
