@@ -5,6 +5,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import ua.borman.sqlcmd.controller.CommandExecutor;
 import ua.borman.sqlcmd.model.DatabaseManager;
+import ua.borman.sqlcmd.view.Console;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -29,8 +30,8 @@ public class Delete_Test {
     @Test
     public void deleteTest() {
         DatabaseManager dbm = new DatabaseManager();
-        CommandExecutor executor = getCommandExecutor();
-        executor.execute(getQueryString("connect", DB_NAME, USERNAME, PASSWORD), dbm);
+        CommandExecutor executor = getCommandExecutor(new Console(), dbm);
+        executor.execute(getQueryString("connect", DB_NAME, USERNAME, PASSWORD));
 
 
         Connection connection = connectToSQL(DB_NAME);
@@ -49,7 +50,7 @@ public class Delete_Test {
 
         assertEquals(countOfRows1, 3);
 
-        executor.execute(getQueryString("delete", TEST_TABLE, "col1", "r1_c1_value"), dbm);
+        executor.execute(getQueryString("delete", TEST_TABLE, "col1", "r1_c1_value"));
 
         int countOfRows2 = -100;
         try {
@@ -64,7 +65,7 @@ public class Delete_Test {
         assertEquals(countOfRows1 - 1, countOfRows2);
 
         disconnect(connection);
-        executor.execute("close", dbm);
+        executor.execute("close");
 
     }
 

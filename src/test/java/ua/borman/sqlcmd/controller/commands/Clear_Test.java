@@ -5,6 +5,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import ua.borman.sqlcmd.controller.CommandExecutor;
 import ua.borman.sqlcmd.model.DatabaseManager;
+import ua.borman.sqlcmd.view.Console;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -28,8 +29,8 @@ public class Clear_Test {
     @Test
     public void ClearTest(){
         DatabaseManager dbm = new DatabaseManager();
-        CommandExecutor executor = getCommandExecutor();
-        executor.execute(getQueryString("connect", DB_NAME, USERNAME, PASSWORD), dbm);
+        CommandExecutor executor = getCommandExecutor(new Console(), dbm);
+        executor.execute(getQueryString("connect", DB_NAME, USERNAME, PASSWORD));
 
         Connection connection = connectToSQL(DB_NAME);
         Statement statement = null;
@@ -48,7 +49,7 @@ public class Clear_Test {
 
         assertEquals(countOfRows, 3);
 
-        executor.execute(getQueryString("clear", TEST_TABLE), dbm);
+        executor.execute(getQueryString("clear", TEST_TABLE));
 
         try {
             rs = statement.executeQuery("SELECT COUNT(*) FROM \"" + TEST_TABLE + "\"");
@@ -63,7 +64,7 @@ public class Clear_Test {
 
 
         disconnect(connection);
-        executor.execute("close", dbm);
+        executor.execute("close");
 
 
     }

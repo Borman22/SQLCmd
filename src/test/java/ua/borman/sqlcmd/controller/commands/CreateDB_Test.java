@@ -6,6 +6,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import ua.borman.sqlcmd.controller.CommandExecutor;
 import ua.borman.sqlcmd.model.DatabaseManager;
+import ua.borman.sqlcmd.view.Console;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -28,8 +29,8 @@ public class CreateDB_Test {
     @Test
     public void CreateDB() {
         DatabaseManager dbm = new DatabaseManager();
-        CommandExecutor executor = getCommandExecutor();
-        executor.execute(getQueryString("createdb", DB_NAME, USERNAME, PASSWORD), dbm);
+        CommandExecutor executor = getCommandExecutor(new Console(), dbm);
+        executor.execute(getQueryString("createdb", DB_NAME, USERNAME, PASSWORD));
 
         try {
             dbm.close();

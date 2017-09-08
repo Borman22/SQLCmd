@@ -4,6 +4,7 @@ import ua.borman.sqlcmd.controller.CommandExecutor;
 import ua.borman.sqlcmd.controller.commands.*;
 import ua.borman.sqlcmd.model.DatabaseManager;
 import ua.borman.sqlcmd.view.Console;
+import ua.borman.sqlcmd.view.View;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -142,21 +143,23 @@ public class Templates_For_Tests {
         }
     }
 
-    public static CommandExecutor getCommandExecutor(){
+    public static CommandExecutor getCommandExecutor(View view, DatabaseManager dbm){
         if(executor == null)
-            executor = new CommandExecutor(new Console());
+            executor = new CommandExecutor(view, dbm);
         return executor;
     }
 
     public static void createTablesAnd3Rows(){
-        createdbWithoutTables();
         DatabaseManager dbm = new DatabaseManager();
-        CommandExecutor executor = getCommandExecutor();
-        executor.execute(getQueryString("connect", DB_NAME, USERNAME, PASSWORD), dbm);
-        executor.execute(getQueryString("create", TEST_TABLE, "col1", "col2"), dbm);
-        executor.execute(getQueryString("insert", TEST_TABLE, "col1", "r1_c1_value", "col2", "r1_c2_value"), dbm);
-        executor.execute(getQueryString("insert", TEST_TABLE, "col1", "r2_c1_value", "col2", "r2_c2_value"), dbm);
-        executor.execute(getQueryString("insert", TEST_TABLE, "col1", "r3_c1_value", "col2", "r3_c2_value"), dbm);
+        View view = new Console();
+        createdbWithoutTables();
+
+        CommandExecutor executor = getCommandExecutor(view, dbm);
+        executor.execute(getQueryString("connect", DB_NAME, USERNAME, PASSWORD));
+        executor.execute(getQueryString("create", TEST_TABLE, "col1", "col2"));
+        executor.execute(getQueryString("insert", TEST_TABLE, "col1", "r1_c1_value", "col2", "r1_c2_value"));
+        executor.execute(getQueryString("insert", TEST_TABLE, "col1", "r2_c1_value", "col2", "r2_c2_value"));
+        executor.execute(getQueryString("insert", TEST_TABLE, "col1", "r3_c1_value", "col2", "r3_c2_value"));
     }
 
 }

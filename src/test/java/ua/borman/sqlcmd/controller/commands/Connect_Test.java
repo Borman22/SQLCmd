@@ -5,6 +5,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import ua.borman.sqlcmd.controller.CommandExecutor;
 import ua.borman.sqlcmd.model.DatabaseManager;
+import ua.borman.sqlcmd.view.Console;
 
 import java.sql.*;
 import static org.junit.Assert.assertFalse;
@@ -18,11 +19,11 @@ public class Connect_Test {
     private boolean connectionIsReceived(String query) {
         boolean result;
         DatabaseManager dbm = new DatabaseManager();
-        CommandExecutor executor = getCommandExecutor();
-        executor.execute(query,dbm);
+        CommandExecutor executor = getCommandExecutor(new Console(), dbm);
+        executor.execute(query);
 
         result = dbm.isConnected();
-        executor.execute("close", dbm);
+        executor.execute("close");
         return result;
     }
 

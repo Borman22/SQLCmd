@@ -5,6 +5,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import ua.borman.sqlcmd.controller.CommandExecutor;
 import ua.borman.sqlcmd.model.DatabaseManager;
+import ua.borman.sqlcmd.view.Console;
 
 import java.sql.SQLException;
 import java.util.HashSet;
@@ -30,11 +31,11 @@ public class Tables_Test {
     @Test
     public void tablesTest(){
         DatabaseManager dbm = new DatabaseManager();
-        CommandExecutor executor = getCommandExecutor();
-        executor.execute(getQueryString("connect", DB_NAME, USERNAME, PASSWORD), dbm);
+        CommandExecutor executor = getCommandExecutor(new Console(), dbm);
+        executor.execute(getQueryString("connect", DB_NAME, USERNAME, PASSWORD));
 
-        Set<String> tablesSet1 = new HashSet<>(Tables.getTables(getQueryList("tables"),dbm)); // [testTableByBorman]
-        executor.execute(getQueryString("create", TEST_TABLE_FALSE, "col1", "col2"), dbm);
+        Set<String> tablesSet1 = new HashSet<>(Tables.getTables(getQueryList("tables"), dbm)); // [testTableByBorman]
+        executor.execute(getQueryString("create", TEST_TABLE_FALSE, "col1", "col2"));
 
         Set<String> tablesSet2 = new HashSet<>(Tables.getTables(getQueryList("tables"),dbm));  // [testTableByBorman, testTableFalseByBorman]
         assertFalse(tablesSet1.equals(tablesSet2));
@@ -42,7 +43,7 @@ public class Tables_Test {
         tablesSet2.remove(TEST_TABLE_FALSE);  // [testTableByBorman]
         assertTrue(tablesSet1.equals(tablesSet2));
 
-        executor.execute("close", dbm);
+        executor.execute("close");
 
     }
 

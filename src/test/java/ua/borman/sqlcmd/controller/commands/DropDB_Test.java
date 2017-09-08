@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import ua.borman.sqlcmd.controller.CommandExecutor;
 import ua.borman.sqlcmd.model.DatabaseManager;
+import ua.borman.sqlcmd.view.Console;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -19,16 +20,16 @@ public class DropDB_Test {
     @Before
     public void init() {
         DatabaseManager dbm = new DatabaseManager();
-        CommandExecutor executor = getCommandExecutor();
-        executor.execute(getQueryString("createdb", DB_NAME_FALSE, USERNAME, PASSWORD), dbm);
-        executor.execute("close", dbm);
+        CommandExecutor executor = getCommandExecutor(new Console(), dbm);
+        executor.execute(getQueryString("createdb", DB_NAME_FALSE, USERNAME, PASSWORD));
+        executor.execute("close");
     }
 
     @Test
     public void dropDBTest() {
         DatabaseManager dbm = new DatabaseManager();
-        CommandExecutor executor = getCommandExecutor();
-        executor.execute(getQueryString("connect", "", USERNAME, PASSWORD), dbm);
+        CommandExecutor executor = getCommandExecutor(new Console(), dbm);
+        executor.execute(getQueryString("connect", "", USERNAME, PASSWORD));
 
         Connection connection = connectToSQL(DB_NAME_FALSE);
         try {
@@ -44,7 +45,7 @@ public class DropDB_Test {
         } catch (SQLException e) {
             System.err.println("Не удалось отключитьс от БД");
         }
-        executor.execute(getQueryString("dropDB", DB_NAME_FALSE), dbm);
+        executor.execute(getQueryString("dropDB", DB_NAME_FALSE));
 
         connection = connectToSQL(DB_NAME_FALSE);
         try {
@@ -56,6 +57,6 @@ public class DropDB_Test {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        executor.execute("close", dbm);
+        executor.execute("close");
     }
 }

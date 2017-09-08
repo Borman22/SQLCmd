@@ -5,6 +5,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import ua.borman.sqlcmd.controller.CommandExecutor;
 import ua.borman.sqlcmd.model.DatabaseManager;
+import ua.borman.sqlcmd.view.Console;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -29,8 +30,8 @@ public class Insert_Test {
     @Test
     public void insertTest(){
         DatabaseManager dbm = new DatabaseManager();
-        CommandExecutor executor = getCommandExecutor();
-        executor.execute(getQueryString("connect", DB_NAME, USERNAME, PASSWORD), dbm);
+        CommandExecutor executor = getCommandExecutor(new Console(), dbm);
+        executor.execute(getQueryString("connect", DB_NAME, USERNAME, PASSWORD));
 
         Connection connection = connectToSQL(DB_NAME);
         Statement statement = null;
@@ -46,7 +47,7 @@ public class Insert_Test {
             System.err.println(e.getLocalizedMessage());
         }
 
-        executor.execute(getQueryString("insert", TEST_TABLE, "col1", "rN_c1_value", "col2", "rN_c2_value"), dbm);
+        executor.execute(getQueryString("insert", TEST_TABLE, "col1", "rN_c1_value", "col2", "rN_c2_value"));
 
         int countOfRows2 = -100;
         try {
@@ -61,6 +62,6 @@ public class Insert_Test {
         assertEquals(countOfRows1, countOfRows2 - 1);
 
         disconnect(connection);
-        executor.execute("close", dbm);
+        executor.execute("close");
     }
 }
