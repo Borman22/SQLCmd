@@ -1,7 +1,7 @@
+// +
 package ua.borman.sqlcmd.controller.commands;
 
 import ua.borman.sqlcmd.model.DatabaseManager;
-import ua.borman.sqlcmd.view.Console;
 import ua.borman.sqlcmd.view.View;
 
 import java.sql.SQLException;
@@ -27,7 +27,7 @@ public class Connect implements Command{
                 dbm.connect(queryList);
             } catch (SQLException e) {
                 view.writeln(">\tНе удалось подключиться к базе данных. Проверте правильность написания имени БД, логина, пароля, хоста и порта.\n" +
-                        ">\tБуквы в верхнем регистре не равны буквам в нижнем");
+                        ">\tБуквы в верхнем регистре не равны буквам в нижнем.");
                 view.writeln(">\tВведите следующую команду\n");
             }
             return;

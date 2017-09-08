@@ -2,11 +2,9 @@ package ua.borman.sqlcmd.controller.commands;
 
 import ua.borman.sqlcmd.controller.Table;
 import ua.borman.sqlcmd.model.DatabaseManager;
-import ua.borman.sqlcmd.view.Console;
 import ua.borman.sqlcmd.view.View;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Find implements Command{
@@ -22,34 +20,36 @@ public class Find implements Command{
 
     @Override
     public void process(List<String> queryList) {
-        View writer = new Console();
+
         if (queryList.size() != 2){
-            writer.writeln(">\tОперация не выполнена. Причина: у команды find должен быть 1 аргумент: tableName\n");
-//            return null;
+            view.writeln(">\tОперация не выполнена. Причина: у команды find должен быть 1 аргумент: tableName\n");
+            return;
         }
 
         if(!dbm.isConnected()){
-            writer.writeln(">\tЧтобы работать с таблицами необходимо подключиться к БД\n");
-//            return null;
+            view.writeln(">\tЧтобы работать с таблицами необходимо подключиться к БД\n");
+            return;
         }
 
         String tableName = "\"" + queryList.get(1) + "\""; // имя таблицы заключаем в двойные кавычки
+        Table table = null;
         try {
-            Table table = dbm.find(tableName); //"SELECT * FROM users"
+            table = dbm.find(tableName); //"SELECT * FROM users"
 
             for (int i = 0; i < table.getColumnCount(); i++) {
-                writer.write(table.getColumnName(i) + "\t\t");
+                view.write(table.getColumnName(i) + "\t");
             }
-            writer.writeln("");
+            view.writeln("");
             for (int i = 0; i < table.getRowCount(); i++) {
-                writer.writeln(table.getRow(i).toString());
+                view.writeln(table.getRow(i).toString());
             }
-//            return table;
         } catch (SQLException e) {
-            writer.writeln(">\t\tНе удалось получить данные из таблицы " + tableName);
-            writer.writeln(">\t\t" + e.getLocalizedMessage());
+            view.writeln(">\t\tНе удалось получить данные из таблицы " + tableName);
+            view.writeln(">\t\t" + e.getLocalizedMessage());
+            return;
         }
-//        return null; TODO Подумать, как вернуть из метода таблицу
+//        if(table == null) return;
+
     }
 
     @Override

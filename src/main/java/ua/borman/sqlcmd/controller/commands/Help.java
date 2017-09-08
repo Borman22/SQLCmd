@@ -1,8 +1,6 @@
 package ua.borman.sqlcmd.controller.commands;
 
-import ua.borman.sqlcmd.view.Console;
 import ua.borman.sqlcmd.view.View;
-
 import java.util.List;
 
 public class Help implements Command{

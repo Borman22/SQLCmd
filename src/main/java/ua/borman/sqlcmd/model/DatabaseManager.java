@@ -144,6 +144,7 @@ public class DatabaseManager {
         // statement.executeUpdate("UPDATE users SET password = 123 WHERE id > 10");
         StringBuilder query = new StringBuilder("UPDATE ").append(columnList.get(0)).append(" SET ").append(columnList.get(3)).append(" = ").append(columnList.get(4)).append(" WHERE ").append(columnList.get(1)).append(" = ").append(columnList.get(2));  // "INSERT INTO users (name, password) VALUES ('borman', '1234wedfxc')"
 
+
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(query.toString());
         }

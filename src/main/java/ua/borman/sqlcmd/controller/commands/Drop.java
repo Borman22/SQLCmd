@@ -1,7 +1,6 @@
 package ua.borman.sqlcmd.controller.commands;
 
 import ua.borman.sqlcmd.model.DatabaseManager;
-import ua.borman.sqlcmd.view.Console;
 import ua.borman.sqlcmd.view.View;
 
 import java.sql.SQLException;

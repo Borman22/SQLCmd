@@ -16,6 +16,7 @@ public class Exit implements Command{
 
     @Override
     public void process(List<String> queryList) {
+
         view.writeln("Спасибо, что воспользовались нашей программой. Adios!");
         try {
             dbm.closeConnection();

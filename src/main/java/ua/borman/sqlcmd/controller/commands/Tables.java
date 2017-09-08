@@ -19,27 +19,25 @@ public class Tables implements Command {
 
 
     @Override
-    public void process(List<String> queryList) {  //  TODO Подумать, как возвращать таблицы
+    public void process(List<String> queryList) {
 
         if (queryList.size() != 1){
             view.writeln(">\tОперация не выполнена. Причина: количество аргументов команды tables != 0\n");
-//            return null;
+            return;
         }
 
         if(!dbm.isConnected()){
             view.writeln(">\tЧтобы обращаться к БД необходимо подключиться к БД\n");
-//            return null;
+            return;
         }
 
         try {
             List<String> tablesList = dbm.tables();
             view.writeln(">\tВ базе данных содержатся таблицы: " + tablesList);
             view.writeln(">\tКоличество таблиц = " + tablesList.size());
-//            return tablesList;
         } catch (SQLException e) {
             view.writeln(">\tНе удалось получить список всех таблиц");
             view.writeln(e.getLocalizedMessage());
-//            return null;
         }
 
     }
