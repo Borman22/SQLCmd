@@ -4,17 +4,25 @@ import ua.borman.sqlcmd.model.DatabaseManager;
 import ua.borman.sqlcmd.view.View;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 
 public class Tables implements Command {
 
     private final DatabaseManager dbm;
     private final View view;
+    private List<String> tempList = new ArrayList<>();
 
     public Tables(DatabaseManager dbm, View view) {
         this.dbm = dbm;
         this.view = view;
+    }
+
+    public Tables(DatabaseManager dbm, View view, List<String> tempList) {
+        this(dbm, view);
+        this.tempList = tempList;
     }
 
 
@@ -35,6 +43,7 @@ public class Tables implements Command {
             List<String> tablesList = dbm.tables();
             view.writeln(">\tВ базе данных содержатся таблицы: " + tablesList);
             view.writeln(">\tКоличество таблиц = " + tablesList.size());
+            tempList.addAll(tablesList);
         } catch (SQLException e) {
             view.writeln(">\tНе удалось получить список всех таблиц");
             view.writeln(e.getLocalizedMessage());

@@ -74,7 +74,7 @@ public class Templates_For_Tests {
         }
     }
 
-    public static void createdbWithoutTables(){
+    public static void createdbWithoutTables(DatabaseManager dbm, View view){
         Connect connect = new Connect(dbm, view);
         connect.process(getQueryList("connect", " ", USERNAME, PASSWORD));
 
@@ -87,8 +87,9 @@ public class Templates_For_Tests {
         }
 
         connect.process(getQueryList("connect", DB_NAME, USERNAME, PASSWORD));
-//        Drop.drop(getQueryList("drop", TEST_TABLE), dbm);
-//        Drop.drop(getQueryList("drop", TEST_TABLE_FALSE), dbm);
+        Drop drop = new Drop(dbm, view);
+        drop.process(getQueryList("drop", TEST_TABLE));
+        drop.process(getQueryList("drop", TEST_TABLE_FALSE));
         try {
             dbm.close();
         } catch (SQLException e) {
@@ -153,10 +154,9 @@ public class Templates_For_Tests {
         return executor;
     }
 
-    public static void createTablesAnd3Rows(){
-        DatabaseManager dbm = new DatabaseManager();
-        View view = new Console();
-        createdbWithoutTables();
+    public static void createTablesAnd3Rows(DatabaseManager dbm, View view){
+
+        createdbWithoutTables(dbm, view);
 
         CommandExecutor executor = getCommandExecutor(view, dbm);
         executor.execute(getQueryString("connect", DB_NAME, USERNAME, PASSWORD));
