@@ -18,7 +18,7 @@ public class CommandExecutor {
     public CommandExecutor(View view, DatabaseManager dbm) {
         this.view = view;
         this.dbm = dbm;
-        commands = new Command[]{new Help(view), new Exit(dbm, view), new Clear(dbm, view), new Close(dbm, view)};
+        commands = new Command[]{new Help(view), new Exit(dbm, view), new Clear(dbm, view), new Close(dbm, view), new Connect(dbm, view)};
     }
 
     public void execute(String str) {
@@ -52,7 +52,7 @@ public class CommandExecutor {
                     break;
 
                 case "connect":
-                    Connect.connect(queryList, dbm);
+                    view.writeln("Уже еализована в паттерне Команда");
                     break;
 
                 case "tables":

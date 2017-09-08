@@ -7,9 +7,18 @@ import ua.borman.sqlcmd.view.View;
 import java.sql.SQLException;
 import java.util.List;
 
-public class Connect {
+public class Connect implements Command{
 
-    public static void connect(List<String> queryList, DatabaseManager dbm) {
+    private final DatabaseManager dbm;
+    private final View view;
+
+    public Connect(DatabaseManager dbm, View view) {
+        this.dbm = dbm;
+        this.view = view;
+    }
+
+    @Override
+    public void process(List<String> queryList) {
         View writer = new Console();
         queryList.remove(0); // удаляем команду
 
@@ -26,5 +35,10 @@ public class Connect {
 
         writer.writeln(">\tНеправильный формат запроса. Введите запрос в формате:" +
                 ">\tconnect|database|username|password или connect|database|username|password|host:port");
+    }
+
+    @Override
+    public boolean canProcess(String command) {
+        return command.equals("connect");
     }
 }
