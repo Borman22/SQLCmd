@@ -19,7 +19,7 @@ public class CommandExecutor {
         this.view = view;
         this.dbm = dbm;
         commands = new Command[]{new Help(view), new Exit(dbm, view), new Clear(dbm, view), new Close(dbm, view),
-                new Connect(dbm, view), new Create(dbm, view)};
+                new Connect(dbm, view), new Create(dbm, view), new Delete(dbm, view), new Drop(dbm, view)};
     }
 
     public void execute(String str) {
@@ -65,7 +65,7 @@ public class CommandExecutor {
                     break;
 
                 case "drop":
-                    Drop.drop(queryList, dbm);
+                    view.writeln("Уже еализована в паттерне Команда");
                     break;
 
                 case "dropdb":
@@ -93,7 +93,7 @@ public class CommandExecutor {
                     break;
 
                 case "delete":
-                    Delete.delete(queryList, dbm);
+                    view.writeln("Уже еализована в паттерне Команда");
                     break;
 
                 case "close":
