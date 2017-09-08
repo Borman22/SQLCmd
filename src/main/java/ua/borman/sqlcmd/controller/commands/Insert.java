@@ -7,8 +7,18 @@ import ua.borman.sqlcmd.view.View;
 import java.sql.SQLException;
 import java.util.List;
 
-public class Insert {
-    public static void insert(List<String> queryList, DatabaseManager dbm) {
+public class Insert implements Command{
+
+    private final DatabaseManager dbm;
+    private final View view;
+
+    public Insert(DatabaseManager dbm, View view) {
+        this.dbm = dbm;
+        this.view = view;
+    }
+
+    @Override
+    public void process(List<String> queryList) {
         View writer = new Console();
         if (queryList.size() < 4){
             writer.writeln(">\tОперация не выполнена. Причина: у команды insert должно быть минимум 3 аргумента: " +
@@ -44,4 +54,10 @@ public class Insert {
             writer.writeln(">\t" + e.getLocalizedMessage());
         }
     }
+
+    @Override
+    public boolean canProcess(String command) {
+        return command.equals("insert");
+    }
+
 }

@@ -19,7 +19,8 @@ public class CommandExecutor {
         this.view = view;
         this.dbm = dbm;
         commands = new Command[]{new Help(view), new Exit(dbm, view), new Clear(dbm, view), new Close(dbm, view),
-                new Connect(dbm, view), new Create(dbm, view), new Delete(dbm, view), new Drop(dbm, view), new Find(dbm, view)};
+                new Connect(dbm, view), new Create(dbm, view), new Delete(dbm, view), new Drop(dbm, view), new Find(dbm, view),
+        new Insert(dbm, view)};
     }
 
     public void execute(String str) {
@@ -85,7 +86,7 @@ public class CommandExecutor {
                     break;
 
                 case "insert":
-                    Insert.insert(queryList, dbm);
+                    view.writeln("Уже еализована в паттерне Команда");
                     break;
 
                 case "update":

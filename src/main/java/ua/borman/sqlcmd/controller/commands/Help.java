@@ -34,7 +34,7 @@ public class Help implements Command{
 
     @Override
     public void process(List<String> queryList) {
-        view = new Console();
+
         if (queryList.size() > 1) {
             queryList.set(1, queryList.get(1).trim().toLowerCase());
             switch (queryList.get(1)) {
